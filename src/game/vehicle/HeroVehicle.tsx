@@ -476,4 +476,4 @@ const AXIS_Y = new THREE.Vector3(0, 1, 0);
 const Q_STEER = new THREE.Quaternion();
 const Q_SPIN = new THREE.Quaternion();
 
-useGLTF.preload(VEHICLE_MODEL.url, false);
+useGLTF.preload(VEHICLE_MODEL.url, '/draco/gltf/');
