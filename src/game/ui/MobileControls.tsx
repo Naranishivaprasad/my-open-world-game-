@@ -28,14 +28,14 @@ export function MobileControls() {
 function MovementArea() {
   const containerRef = useRef<HTMLDivElement>(null);
   const touchIdRef = useRef<number | null>(null);
-  const [basePos, setBasePos] = useState<{ x: number; y: number } | null>(null);
-  const [nubPos, setNubPos] = useState<{ x: number; y: number } | null>(null);
+  const basePosRef = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const handleTouchStart = (e: TouchEvent) => {
+      if ((e.target as HTMLElement).tagName === 'BUTTON') return;
       e.preventDefault();
       if (touchIdRef.current !== null) return;
       const touch = e.changedTouches[0];
@@ -44,13 +44,13 @@ function MovementArea() {
       const rect = el.getBoundingClientRect();
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
-      setBasePos({ x, y });
+      basePosRef.current = { x, y };
       setNubPos({ x, y });
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
-      if (touchIdRef.current === null || !basePos) return;
+      if (touchIdRef.current === null || !basePosRef.current) return;
       let touch: Touch | undefined;
       for (let i = 0; i < e.changedTouches.length; i++) {
         if (e.changedTouches[i].identifier === touchIdRef.current) {
@@ -64,8 +64,8 @@ function MovementArea() {
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
 
-      const dx = x - basePos.x;
-      const dy = y - basePos.y;
+      const dx = x - basePosRef.current.x;
+      const dy = y - basePosRef.current.y;
       const maxRadius = 40;
       const dist = Math.hypot(dx, dy);
 
@@ -76,7 +76,7 @@ function MovementArea() {
         clampedY = (dy / dist) * maxRadius;
       }
 
-      setNubPos({ x: basePos.x + clampedX, y: basePos.y + clampedY });
+      setNubPos({ x: basePosRef.current.x + clampedX, y: basePosRef.current.y + clampedY });
 
       // Map to -1..1
       const nx = clampedX / maxRadius;
@@ -98,7 +98,7 @@ function MovementArea() {
       if (!ended) return;
 
       touchIdRef.current = null;
-      setBasePos(null);
+      basePosRef.current = null;
       setNubPos(null);
       input.mobileMoveX = 0;
       input.mobileMoveZ = 0;
@@ -115,7 +115,7 @@ function MovementArea() {
       el.removeEventListener('touchend', handleTouchEnd);
       el.removeEventListener('touchcancel', handleTouchEnd);
     };
-  }, [basePos]);
+  }, []);
 
   return (
     <div
@@ -170,14 +170,14 @@ function LookAndActionArea() {
     if (!el) return;
 
     const handleTouchStart = (e: TouchEvent) => {
+      // Ensure we're not touching a button
+      if ((e.target as HTMLElement).tagName === 'BUTTON' || (e.target as HTMLElement).closest('button')) return;
       e.preventDefault();
+      
       // Ignore if we already track a look touch
       if (lastTouchRef.current !== null) return;
       const touch = e.changedTouches[0];
       if (!touch) return;
-      
-      // Ensure we're not touching a button
-      if ((e.target as HTMLElement).tagName === 'BUTTON') return;
 
       lastTouchRef.current = { id: touch.identifier, x: touch.clientX, y: touch.clientY };
     };
