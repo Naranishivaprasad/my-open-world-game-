@@ -35,7 +35,7 @@ export function HeroVehicle({
   onOwner?: (o: VehicleOwner) => void;
 }) {
   const { world, rapier } = useRapier();
-  const gltf = useGLTF(VEHICLE_MODEL.url, false);
+  const gltf = useGLTF(VEHICLE_MODEL.url, '/draco/gltf/');
 
   const carRef = useRef<THREE.Group>(null);
   /** The GLB shell, which outlives being driven: it stays parked. */
@@ -340,8 +340,8 @@ function buildRig(scene: THREE.Object3D): Rig {
    * frozen at an arbitrary roll angle looks identical.
    */
   const squareFor: Record<string, string> = {
-    WheelFrontL: 'WheelRearL',
-    WheelFrontR: 'WheelRearR',
+    wheel_fl: 'wheel_rl',
+    wheel_fr: 'wheel_rr',
   };
 
   const wheelPivots: THREE.Group[] = [];
