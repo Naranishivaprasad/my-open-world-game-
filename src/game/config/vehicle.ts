@@ -18,7 +18,7 @@
 export const VEHICLE_MODEL = {
   url: '/models/vendor/hero_car.glb',
   /** Model faces +Z; rotate it to face -Z. */
-  yawOffset: Math.PI,
+  yawOffset: 0,
   scale: 1,
 
   /**
