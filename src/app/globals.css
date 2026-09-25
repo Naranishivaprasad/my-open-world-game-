@@ -315,7 +315,7 @@ h2.section {
 .hud__minimap {
   position: absolute;
   left: 1.4em;
-  bottom: 1.4em;
+  top: 1.4em;
 }
 
 .hud__prompt {

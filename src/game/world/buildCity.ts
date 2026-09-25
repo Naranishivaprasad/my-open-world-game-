@@ -1241,7 +1241,7 @@ function addCoast(
 
   // Past the waterline the sea bed keeps falling away, so an invisible barrier
   // stops the player simply walking out to the horizon. There is no swimming.
-  const wadeLimit = promenadeX + (sandEnd - promenadeX) * 0.78;
+  const wadeLimit = promenadeX + (sandEnd - promenadeX) * 0.95;
   colliders.push(boxCollider(wadeLimit, 1.2, 0, 1.0, 4.0, (zTo - zFrom) + 4));
 
   // ------------------------------------------------------------- the pier

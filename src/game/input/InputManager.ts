@@ -34,6 +34,14 @@ export class InputManager {
 
   setMobileAction(action: GameAction, isDown: boolean) {
     if (isDown) {
+      if (action === 'pause') {
+        this.onPause?.();
+        return;
+      }
+      if (action === 'map') {
+        this.onMap?.();
+        return;
+      }
       if (!this.mobileHeld.has(action)) {
         this.mobilePressed.add(action);
       }
@@ -304,8 +312,8 @@ export class InputManager {
     i.moveZ = z;
 
     // Vehicle axes share the same physical keys; control mode decides which is read.
-    i.throttle = this.mobileMoveZ !== 0 ? -this.mobileMoveZ : (this.held.has('moveForward') ? 1 : 0) - (this.held.has('moveBack') ? 1 : 0);
-    i.steer = this.mobileMoveX !== 0 ? this.mobileMoveX : (this.held.has('moveRight') ? 1 : 0) - (this.held.has('moveLeft') ? 1 : 0);
+    i.throttle = this.mobileMoveZ !== 0 ? -this.mobileMoveZ : ((this.held.has('moveForward') || this.mobileHeld.has('moveForward')) ? 1 : 0) - ((this.held.has('moveBack') || this.mobileHeld.has('moveBack')) ? 1 : 0);
+    i.steer = this.mobileMoveX !== 0 ? this.mobileMoveX : ((this.held.has('moveRight') || this.mobileHeld.has('moveRight')) ? 1 : 0) - ((this.held.has('moveLeft') || this.mobileHeld.has('moveLeft')) ? 1 : 0);
     i.handbrake = this.held.has('jump') || this.mobileHeld.has('jump');
 
     i.sprint = this.held.has('sprint') || this.mobileHeld.has('sprint');
