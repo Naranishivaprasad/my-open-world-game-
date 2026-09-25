@@ -1,0 +1,31 @@
+{
+  "name": "palm-coast",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PALM COAST - an original browser-playable open-world action-driving game",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "assets": "node scripts/fetch-assets.mjs"
+  },
+  "dependencies": {
+    "@react-three/drei": "10.7.8",
+    "@react-three/fiber": "9.7.0",
+    "@react-three/rapier": "2.2.0",
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "0.186.0",
+    "zustand": "5.0.15"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "0.186.0",
+    "puppeteer-core": "^23.11.1",
+    "typescript": "^5.9.0"
+  }
+}

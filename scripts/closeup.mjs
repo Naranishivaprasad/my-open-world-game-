@@ -1,0 +1,15 @@
+import puppeteer from 'puppeteer-core';
+const CHROME = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const b = await puppeteer.launch({ executablePath: CHROME, headless: false, defaultViewport:{width:1400,height:800} });
+const p = await b.newPage();
+await p.goto('http://localhost:3000',{waitUntil:'domcontentloaded',timeout:60000});
+await p.waitForSelector('.title',{timeout:60000});
+await p.evaluate(()=>[...document.querySelectorAll('button')].find(x=>x.textContent?.includes('New session'))?.click());
+await p.waitForFunction(()=>!!document.querySelector('canvas[aria-label="Minimap"]'),{timeout:300000});
+await new Promise(r=>setTimeout(r,5000));
+const c=await p.$('canvas'); await c.click({offset:{x:700,y:500}});
+const [x,y,z,yaw,pitch,name] = JSON.parse(process.env.SHOT);
+await p.evaluate(({x,y,z,yaw,pitch})=>{ window.__PALM__.teleport(x,y,z); window.__PALM__.sim.camera.yaw=yaw; window.__PALM__.sim.camera.pitch=pitch; },{x,y,z,yaw,pitch});
+await new Promise(r=>setTimeout(r,3000));
+await p.screenshot({path:`.testshots/${name}.png`});
+await b.close();

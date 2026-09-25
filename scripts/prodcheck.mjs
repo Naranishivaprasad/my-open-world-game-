@@ -1,0 +1,13 @@
+import puppeteer from 'puppeteer-core';
+const CHROME = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const b = await puppeteer.launch({ executablePath: CHROME, headless: false, defaultViewport:{width:1200,height:700} });
+const p = await b.newPage();
+p.on('pageerror',e=>console.log('PAGEERROR:', e.message.slice(0,400)));
+p.on('console',m=>{ if(m.type()==='error') console.log('CONSOLE:', m.text().slice(0,400)); });
+p.on('requestfailed',r=>console.log('REQFAIL:', r.url().slice(0,160), r.failure()?.errorText));
+await p.goto('http://localhost:3000',{waitUntil:'networkidle0',timeout:60000});
+await new Promise(r=>setTimeout(r,4000));
+console.log('body html length:', (await p.evaluate(()=>document.body.innerHTML.length)));
+console.log('has .title:', await p.evaluate(()=>!!document.querySelector('.title')));
+console.log('text:', (await p.evaluate(()=>document.body.innerText)).slice(0,300));
+await b.close();

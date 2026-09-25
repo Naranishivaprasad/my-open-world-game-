@@ -1,0 +1,42 @@
+import puppeteer from 'puppeteer-core';
+const CHROME = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const b = await puppeteer.launch({ executablePath: CHROME, headless: false, defaultViewport:{width:1400,height:800} });
+const p = await b.newPage();
+const errs=[]; p.on('pageerror',e=>{errs.push(e.message);console.log('PAGEERROR:',e.message.slice(0,160));});
+p.on('console',m=>{if(m.type()==='error'){errs.push(m.text());console.log('[error]',m.text().slice(0,160));}});
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+let pass=0,fail=0; const rec=(n,ok,d)=>{(ok?pass++:fail++);console.log(`${ok?'PASS':'FAIL'}  ${n}${d?' - '+d:''}`);};
+await p.goto('http://localhost:3000',{waitUntil:'domcontentloaded',timeout:60000});
+await p.waitForSelector('.title',{timeout:60000});
+await p.evaluate(()=>[...document.querySelectorAll('button')].find(x=>x.textContent?.includes('New session'))?.click());
+await p.waitForFunction(()=>!!document.querySelector('canvas[aria-label="Minimap"]'),{timeout:300000});
+await sleep(5000);
+const c=await p.$('canvas'); await c.click({offset:{x:700,y:500}});
+await sleep(600);
+const bike = await p.evaluate(()=>{
+  const v = window.__PALM__.parked.all().find(v=>v.key==='motorcycle'||v.key==='scooter');
+  return v?{id:v.id,key:v.key,x:v.x,z:v.z,heading:v.heading}:null;
+});
+rec('a parked bike exists', !!bike, bike?`${bike.key} at (${bike.x.toFixed(0)},${bike.z.toFixed(0)})`:'none');
+if (bike) {
+  await p.evaluate((t)=>{ const l=t.heading-Math.PI/2; window.__PALM__.teleport(t.x+Math.sin(l)*1.6,0.5,t.z+Math.cos(l)*1.6); }, bike);
+  await sleep(1200);
+  const prompt = await p.evaluate(()=>window.__PALM__.sim.interaction?.label ?? null);
+  console.log('   prompt:', prompt);
+  await p.keyboard.press('KeyF');
+  await sleep(900);
+  const toast = await p.evaluate(()=>window.__PALM__.sim.toast);
+  console.log('   toast after F:', JSON.stringify(toast));
+  await sleep(2300);
+  const s = await p.evaluate(()=>({mode:window.__PALM__.sim.controlMode,kind:window.__PALM__.sim.vehicle.kind,over:window.__PALM__.vehicle.isOverturned,y:window.__PALM__.vehicle.body.translation().y,wheels:window.__PALM__.vehicle.wheelStates.filter(w=>w.grounded).length}));
+  console.log('   after F:', JSON.stringify(s));
+  await p.keyboard.down('w'); await sleep(2600);
+  const d = await p.evaluate(()=>({kph:window.__PALM__.vehicle.speedKph,over:window.__PALM__.vehicle.isOverturned,y:window.__PALM__.vehicle.body.translation().y,wheels:window.__PALM__.vehicle.wheelStates.filter(w=>w.grounded).length}));
+  await p.keyboard.up('w');
+  console.log('   after throttle:', JSON.stringify(d));
+  rec('bike stays upright and rides', s.mode==='vehicle' && !d.over && d.kph>10, `${d.kph.toFixed(1)} km/h, overturned=${d.over}, ${d.wheels}/4 grounded`);
+  await p.screenshot({path:'.testshots/98-bike.png'});
+}
+rec('no console errors', errs.length===0, errs.slice(0,2).join(' | ').slice(0,160)||'none');
+console.log(`\n${pass}/${pass+fail} checks passed`);
+await b.close();

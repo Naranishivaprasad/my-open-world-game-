@@ -1,0 +1,12 @@
+import puppeteer from 'puppeteer-core';
+const CHROME = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const b = await puppeteer.launch({ executablePath: CHROME, headless: false, defaultViewport:{width:1600,height:760} });
+const p = await b.newPage();
+const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+const q = process.env.Q ?? 'view=iso';
+await p.goto(`http://localhost:3000/showroom?${q}`,{waitUntil:'networkidle0',timeout:120000});
+await new Promise(r=>setTimeout(r,2500));
+await p.screenshot({path:`.testshots/${process.env.OUT ?? 'showroom'}.png`});
+console.log('errors:', errs.length? errs.slice(0,3).join(' | ').slice(0,300):'none');
+await b.close();

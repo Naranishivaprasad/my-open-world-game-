@@ -1,0 +1,18 @@
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.env*.local
+
+# Downloaded third-party assets (regenerate with `npm run assets`).
+# Tracked manifest lives in ASSETS.md; binaries are not committed.
+/public/models/vendor/
+/public/textures/vendor/
+/public/hdri/vendor/
+
+# Local test artefacts
+.testshots/
+.asset-cache/

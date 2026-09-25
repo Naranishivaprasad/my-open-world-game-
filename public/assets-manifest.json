@@ -1,0 +1,180 @@
+{
+  "generated": "npm run assets",
+  "assets": [
+    {
+      "id": "khronos:hero_car",
+      "localPath": "/models/vendor/hero_car.glb",
+      "kind": "model",
+      "use": "Player hero vehicle: body, four wheel pivots, modelled interior",
+      "sourcePage": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept",
+      "author": "Eric Chadwick / Darmstadt Graphics Group GmbH",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attributionRequired": true,
+      "attributionText": "CarConcept by Eric Chadwick / Darmstadt Graphics Group GmbH, licensed CC BY 4.0, from the Khronos glTF Sample Assets repository.",
+      "modifications": "Khronos and 3D Commerce logo meshes and the licence plate are hidden at runtime (the licence excludes logos and trademarks). Body paint is retinted."
+    },
+    {
+      "id": "polyhaven:aristea_wreck_puresky",
+      "localPath": "/hdri/vendor/sky_midday.hdr",
+      "kind": "hdri",
+      "use": "Sky + image-based lighting: midday, partly cloudy, medium contrast",
+      "sourcePage": "https://polyhaven.com/a/aristea_wreck_puresky",
+      "author": "Poly Haven",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://polyhaven.com/license",
+      "attributionRequired": false,
+      "modifications": "None (2K HDR as published)."
+    },
+    {
+      "id": "ambientcg:Asphalt033",
+      "key": "asphalt",
+      "maps": [
+        "color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "localPath": "/textures/vendor/asphalt/",
+      "kind": "pbr-material",
+      "use": "Road carriageway surface",
+      "sourcePage": "https://ambientcg.com/view?id=Asphalt033",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:Concrete034",
+      "key": "concrete",
+      "maps": [
+        "color",
+        "normal",
+        "roughness"
+      ],
+      "localPath": "/textures/vendor/concrete/",
+      "kind": "pbr-material",
+      "use": "Sidewalks, kerbs, forecourt slabs",
+      "sourcePage": "https://ambientcg.com/view?id=Concrete034",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:PaintedPlaster017",
+      "key": "plaster",
+      "maps": [
+        "color",
+        "normal",
+        "roughness"
+      ],
+      "localPath": "/textures/vendor/plaster/",
+      "kind": "pbr-material",
+      "use": "Painted block / stucco building facades",
+      "sourcePage": "https://ambientcg.com/view?id=PaintedPlaster017",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:Ground054",
+      "key": "sand",
+      "maps": [
+        "color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "localPath": "/textures/vendor/sand/",
+      "kind": "pbr-material",
+      "use": "The beach along Vista del Mar",
+      "sourcePage": "https://ambientcg.com/view?id=Ground054",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:Bricks104",
+      "key": "brick",
+      "maps": [
+        "color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "localPath": "/textures/vendor/brick/",
+      "kind": "pbr-material",
+      "use": "Older commercial frontages",
+      "sourcePage": "https://ambientcg.com/view?id=Bricks104",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:Grass004",
+      "key": "grass",
+      "maps": [
+        "color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "localPath": "/textures/vendor/grass/",
+      "kind": "pbr-material",
+      "use": "Verges and lots",
+      "sourcePage": "https://ambientcg.com/view?id=Grass004",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:CorrugatedSteel005",
+      "key": "corrugated",
+      "maps": [
+        "color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "localPath": "/textures/vendor/corrugated/",
+      "kind": "pbr-material",
+      "use": "Industrial sheds and fencing",
+      "sourcePage": "https://ambientcg.com/view?id=CorrugatedSteel005",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    },
+    {
+      "id": "ambientcg:Ground037",
+      "key": "dirt",
+      "maps": [
+        "color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "localPath": "/textures/vendor/dirt/",
+      "kind": "pbr-material",
+      "use": "Worn ground, unpaved edges",
+      "sourcePage": "https://ambientcg.com/view?id=Ground037",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0 Universal (public domain dedication)",
+      "licenseUrl": "https://docs.ambientcg.com/license/",
+      "attributionRequired": false,
+      "modifications": "Extracted from 1K-JPG archive; Displacement map discarded; files renamed."
+    }
+  ]
+}

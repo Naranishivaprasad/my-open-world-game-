@@ -1,0 +1,22 @@
+import puppeteer from 'puppeteer-core';
+const CHROME = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const b = await puppeteer.launch({ executablePath: CHROME, headless: false, defaultViewport:{width:1280,height:720} });
+const p = await b.newPage();
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+await p.goto('http://localhost:3000',{waitUntil:'domcontentloaded',timeout:60000});
+await p.waitForSelector('.title',{timeout:60000});
+await p.evaluate(()=>[...document.querySelectorAll('button')].find(x=>x.textContent?.includes('New session'))?.click());
+await p.waitForFunction(()=>!!document.querySelector('canvas[aria-label="Minimap"]'),{timeout:300000});
+await sleep(5000);
+const c=await p.$('canvas'); await c.click({offset:{x:640,y:400}});
+await sleep(700);
+// Parked, steer zero, photographed on foot from directly behind.
+await p.evaluate(()=>{ window.__PALM__.teleportCar(120, 0.6, 60, Math.PI/2); });
+await sleep(1000);
+await p.evaluate(()=>{ window.__PALM__.teleport(110, 0.5, 60); window.__PALM__.sim.camera.yaw=-Math.PI/2; window.__PALM__.sim.camera.pitch=0.06; });
+await sleep(1800);
+await p.evaluate(()=>{ window.__PALM__.sim.camera.yaw=-Math.PI/2; window.__PALM__.sim.camera.pitch=0.06; });
+await sleep(250);
+await p.screenshot({path:'.testshots/I1-rest-rear.png'});
+console.log('steer at rest:', await p.evaluate(()=>+window.__PALM__.vehicle.steer.toFixed(3)));
+await b.close();
