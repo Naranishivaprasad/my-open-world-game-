@@ -66,18 +66,15 @@ const HDRIS = [
 const MODELS = [
   {
     as: 'hero_car',
-    url: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/CarConcept/glTF-Binary/CarConcept.glb',
-    licenseUrl2: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/CarConcept/LICENSE.md',
+    url: 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/ferrari.glb',
     use: 'Player hero vehicle: body, four wheel pivots, modelled interior',
-    sourcePage: 'https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept',
-    author: 'Eric Chadwick / Darmstadt Graphics Group GmbH',
-    license: 'CC BY 4.0',
-    licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
-    attributionRequired: true,
-    attributionText:
-      'CarConcept by Eric Chadwick / Darmstadt Graphics Group GmbH, licensed CC BY 4.0, from the Khronos glTF Sample Assets repository.',
-    modifications:
-      'Khronos and 3D Commerce logo meshes and the licence plate are hidden at runtime (the licence excludes logos and trademarks). Body paint is retinted.',
+    sourcePage: 'https://github.com/mrdoob/three.js/tree/master/examples/models/gltf',
+    author: 'Three.js Examples',
+    license: 'MIT',
+    licenseUrl: 'https://github.com/mrdoob/three.js/blob/master/LICENSE',
+    attributionRequired: false,
+    attributionText: 'Ferrari model from Three.js examples repository.',
+    modifications: 'Node names re-mapped in config.',
   },
 ];
 

@@ -25,18 +25,18 @@ export const VEHICLE_MODEL = {
    * The CC-BY licence for this asset explicitly EXCLUDES logos and trademarks,
    * so these nodes are hidden at load. Names verified by parsing the GLB.
    */
-  hiddenNodes: ['InteriorSteeringEmblem', 'License Plate'],
-  hiddenMaterials: ['License'],
+  hiddenNodes: [],
+  hiddenMaterials: [],
 
   /** Node names for the four wheel pivots, verified present in the GLB. */
-  wheelNodes: ['WheelFrontL', 'WheelFrontR', 'WheelRearL', 'WheelRearR'] as const,
+  wheelNodes: ['wheel_fl', 'wheel_fr', 'wheel_rl', 'wheel_rr'] as const,
 
   /** Node name prefixes used to find light meshes for emissive control. */
   lightNodes: {
-    head: ['BodyHeadlights'],
-    tail: ['BodyTaillights'],
+    head: ['lights'],
+    tail: ['lights_red'],
     // The model has no separate reverse lamp; the tail cluster is brightened.
-    turn: ['BodyTurnsignalsRear'],
+    turn: [],
   },
 
   /** The steering wheel rim, rotated with steering input (spec 18). */
@@ -48,12 +48,13 @@ export const VEHICLE_MODEL = {
    * from the rim, so spinning them swung them out through the bodywork.
    */
   steeringWheelNodes: [
-    'InteriorSteeringWheel01',
-    'InteriorSteeringWheel02',
-    'InteriorSteeringWheel03',
-    'InteriorSteeringWheel04',
-    'InteriorSteeringHandleL',
-    'InteriorSteeringHandleR',
+    'steering_wheel',
+    'steering_carbon',
+    'steering_centre',
+    'steering_leather',
+    'steering_metal',
+    'steering_red_lights',
+    'steering_trim'
   ],
   /** Local pivot the steering wheel turns about, in body space. */
   /**

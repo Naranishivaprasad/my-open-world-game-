@@ -131,7 +131,7 @@ export class PedestrianSystem {
 
     const collider = world.createCollider(
       rapier.ColliderDesc.capsule(CAPSULE.halfHeight * scale, CAPSULE.radius * scale)
-        .setFriction(0.4)
+        .setFriction(0)
         .setRestitution(0)
         .setDensity(0),
       body,
