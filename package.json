@@ -5,7 +5,7 @@
   "description": "PALM COAST - an original browser-playable open-world action-driving game",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run assets && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "assets": "node scripts/fetch-assets.mjs"
