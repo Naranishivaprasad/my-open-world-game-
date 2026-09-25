@@ -335,9 +335,67 @@ export default function GameRoot() {
       )}
 
       {!settingsLoaded && phase === 'boot' && <BootGate onReady={() => setPhase('loading')} />}
+      
+      {/* Block portrait mode and prompt rotation */}
+      {input.hasTouch && <PortraitBlocker />}
     </div>
   );
 }
+
+function PortraitBlocker() {
+  const [isPortrait, setIsPortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    return () => window.removeEventListener('resize', checkOrientation);
+  }, []);
+
+  if (!isPortrait) return null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 999999,
+        background: '#0b0e12',
+        color: 'white',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '2em',
+      }}
+    >
+      <div style={{ fontSize: '3em', marginBottom: '0.2em' }}>↻</div>
+      <h2 style={{ fontSize: '1.5em', marginBottom: '0.5em', color: 'var(--accent)' }}>Please Rotate Your Device</h2>
+      <p style={{ color: 'var(--ink-dim)', marginBottom: '1.5em', maxWidth: '300px' }}>
+        PALM COAST is designed to be played in Landscape mode. Turn your phone sideways to continue playing.
+      </p>
+      <button 
+        className="btn btn--primary"
+        onClick={async () => {
+          try {
+            if (document.documentElement.requestFullscreen) {
+              await document.documentElement.requestFullscreen();
+            }
+            if (screen.orientation && screen.orientation.lock) {
+              await screen.orientation.lock('landscape');
+            }
+          } catch (e) {}
+        }}
+      >
+        Force Landscape (Fullscreen)
+      </button>
+    </div>
+  );
+}
+
 
 /** Moves out of the boot phase once settings have hydrated. */
 function BootGate({ onReady }: { onReady: () => void }) {
