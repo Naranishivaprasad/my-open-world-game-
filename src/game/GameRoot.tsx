@@ -384,8 +384,8 @@ function PortraitBlocker() {
             if (document.documentElement.requestFullscreen) {
               await document.documentElement.requestFullscreen();
             }
-            if (screen.orientation && screen.orientation.lock) {
-              await screen.orientation.lock('landscape');
+            if (screen.orientation && (screen.orientation as any).lock) {
+              await (screen.orientation as any).lock('landscape');
             }
           } catch (e) {}
         }}

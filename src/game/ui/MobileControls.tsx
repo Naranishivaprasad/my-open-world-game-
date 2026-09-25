@@ -28,6 +28,8 @@ export function MobileControls() {
 function MovementArea() {
   const containerRef = useRef<HTMLDivElement>(null);
   const touchIdRef = useRef<number | null>(null);
+  const [basePos, setBasePos] = useState<{ x: number; y: number } | null>(null);
+  const [nubPos, setNubPos] = useState<{ x: number; y: number } | null>(null);
   const basePosRef = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
@@ -45,6 +47,7 @@ function MovementArea() {
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
       basePosRef.current = { x, y };
+      setBasePos({ x, y });
       setNubPos({ x, y });
     };
 
@@ -99,6 +102,7 @@ function MovementArea() {
 
       touchIdRef.current = null;
       basePosRef.current = null;
+      setBasePos(null);
       setNubPos(null);
       input.mobileMoveX = 0;
       input.mobileMoveZ = 0;
