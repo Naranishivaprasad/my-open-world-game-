@@ -412,7 +412,7 @@ function Minimap() {
       const px = sim.player.position.x;
       const pz = sim.player.position.z;
       // Rotate so the player's facing points up the map.
-      const rot = -sim.camera.yaw;
+      const rot = sim.camera.yaw;
       const cos = Math.cos(rot);
       const sin = Math.sin(rot);
 
