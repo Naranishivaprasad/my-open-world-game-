@@ -35,7 +35,7 @@ export function HeroVehicle({
   onOwner?: (o: VehicleOwner) => void;
 }) {
   const { world, rapier } = useRapier();
-  const gltf = useGLTF(VEHICLE_MODEL.url, false);
+  const gltf = useGLTF(VEHICLE_MODEL.url, true);
 
   const carRef = useRef<THREE.Group>(null);
   /** The GLB shell, which outlives being driven: it stays parked. */
