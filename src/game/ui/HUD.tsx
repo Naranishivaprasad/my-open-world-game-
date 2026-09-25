@@ -156,14 +156,14 @@ export function HUD() {
         >
           {mission.dialogue}
           <div className="hint" style={{ marginTop: '0.35em', fontSize: '0.72em' }}>
-            M to skip
+            {input.hasTouch ? 'Map button to skip' : 'M to skip'}
           </div>
         </div>
       )}
 
       {(prompt || mission.promptLabel) && (
         <div className="hud__prompt">
-          <span className="keycap">{mission.promptKey ?? prompt?.key}</span>
+          {!input.hasTouch && <span className="keycap">{mission.promptKey ?? prompt?.key}</span>}
           <span>{mission.promptLabel ?? prompt?.label}</span>
         </div>
       )}
