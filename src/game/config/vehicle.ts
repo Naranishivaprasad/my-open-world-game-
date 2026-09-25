@@ -25,8 +25,8 @@ export const VEHICLE_MODEL = {
    * The CC-BY licence for this asset explicitly EXCLUDES logos and trademarks,
    * so these nodes are hidden at load. Names verified by parsing the GLB.
    */
-  hiddenNodes: [],
-  hiddenMaterials: [],
+  hiddenNodes: [] as string[],
+  hiddenMaterials: [] as string[],
 
   /** Node names for the four wheel pivots, verified present in the GLB. */
   wheelNodes: ['wheel_fl', 'wheel_fr', 'wheel_rl', 'wheel_rr'] as const,

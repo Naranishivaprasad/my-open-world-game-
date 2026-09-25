@@ -340,8 +340,8 @@ function buildRig(scene: THREE.Object3D): Rig {
    * frozen at an arbitrary roll angle looks identical.
    */
   const squareFor: Record<string, string> = {
-    WheelFrontL: 'WheelRearL',
-    WheelFrontR: 'WheelRearR',
+    wheel_fl: 'wheel_rl',
+    wheel_fr: 'wheel_rr',
   };
 
   const wheelPivots: THREE.Group[] = [];
