@@ -163,9 +163,9 @@ export default function GameRoot() {
    * character and a dead camera.
    */
   useEffect(() => {
-    input.setGameplayEnabled(phase === 'playing' && pointerLocked);
+    input.setGameplayEnabled(phase === 'playing' && (pointerLocked || input.hasTouch));
     if (phase !== 'playing') input.exitPointerLock();
-  }, [phase, pointerLocked]);
+  }, [phase, pointerLocked, input.hasTouch]);
 
   // Dev-only overlay toggles.
   useEffect(() => {

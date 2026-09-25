@@ -642,6 +642,7 @@ export function Onboarding() {
   const [visible, setVisible] = useState(false);
 
   const hints: Hint[] = useRefConst(() => {
+    if (input.hasTouch) return [];
     const b = input.getBindings();
     return [
       {
