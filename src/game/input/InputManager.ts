@@ -321,8 +321,9 @@ export class InputManager {
 
     // Look: radians this frame, already scaled by sensitivity.
     const RADIANS_PER_PIXEL = 0.0022;
-    i.lookX = this.mouseDX * RADIANS_PER_PIXEL * sensitivity + this.mobileLookX;
-    i.lookY = this.mouseDY * RADIANS_PER_PIXEL * sensitivity * (invertY ? -1 : 1) + this.mobileLookY;
+    i.lookX = (this.mouseDX + this.mobileLookX) * RADIANS_PER_PIXEL * sensitivity;
+    i.lookY = (this.mouseDY + this.mobileLookY) * RADIANS_PER_PIXEL * sensitivity * (invertY ? -1 : 1);
+    
     
     this.mouseDX = 0;
     this.mouseDY = 0;
