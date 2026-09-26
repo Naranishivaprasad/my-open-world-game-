@@ -117,7 +117,8 @@ export function Player({
     const g = groupRef.current;
     if (!g) return;
     const p = sim.player.position;
-    g.position.set(p.x, p.y, p.z);
+    // Lift the mesh up slightly so the legs don't clip into the ground
+    g.position.set(p.x, p.y + 0.35, p.z);
     const isSitting = sim.controlMode === 'entering' || sim.controlMode === 'exiting' || sim.controlMode === 'vehicle';
     const sitOffset = isSitting ? 0 : 0; // Removed Math.PI rotation offset
     g.rotation.y = sim.player.heading + CHARACTER_MODEL.yawOffset + sitOffset;
