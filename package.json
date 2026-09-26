@@ -2,7 +2,7 @@
   "name": "palm-coast",
   "version": "0.1.0",
   "private": true,
-  "description": "PALM COAST - an original browser-playable open-world action-driving game",
+  "description": "NEO TOKYO - an original browser-playable open-world action-driving game",
   "scripts": {
     "dev": "next dev",
     "build": "npm run assets && next build",

@@ -1,9 +1,9 @@
-# PALM COAST — asset manifest
+# NEO TOKYO — asset manifest
 
 Every third-party asset used in this project, its source, its licence, and what
 was changed. Required by the project brief (§6).
 
-**PALM COAST is an original work.** It is not affiliated with, endorsed by, or
+**NEO TOKYO is an original work.** It is not affiliated with, endorsed by, or
 derived from any commercial game. No assets were extracted from another game.
 The reference screenshots supplied at the start of the project were used only as
 **art direction** — for composition, scale, material feel and camera framing.
@@ -23,7 +23,7 @@ no login. A machine-readable copy of this table is written to
 ---
 ## Vehicles other than the hero car — no third-party assets
 
-Every vehicle in Palm Coast except the player's hero car is **procedural
+Every vehicle in Neo Tokyo except the player's hero car is **procedural
 geometry generated at runtime** by `src/game/world/vehicleGeometry.ts`. Nothing
 is downloaded, nothing is imported, and there is no licence to satisfy:
 
@@ -37,7 +37,7 @@ is downloaded, nothing is imported, and there is no licence to satisfy:
 | Courier LWB | van | procedural, original |
 | Kestrel 650 | motorcycle | procedural, original |
 | Wasp 125 | scooter | procedural, original |
-| Palm Coast PD Cruiser | saloon in livery | procedural, original |
+| Neo Tokyo PD Cruiser | saloon in livery | procedural, original |
 
 The silhouettes are built from generic body types (three-box saloon, fastback
 coupe, one-box van, cab-and-bed pickup, step-through scooter). They do not

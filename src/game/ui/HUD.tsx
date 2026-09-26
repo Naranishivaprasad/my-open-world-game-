@@ -591,7 +591,7 @@ export function DebugOverlay() {
 
   return (
     <div className="debug">
-      {`PALM COAST  dev overlay (F3)
+      {`NEO TOKYO  dev overlay (F3)
 fps        ${stats.fps}  (${stats.frameMs} ms)
 draws      ${stats.draws}
 triangles  ${stats.tris.toLocaleString()}

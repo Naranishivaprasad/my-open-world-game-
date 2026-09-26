@@ -1,5 +1,5 @@
 /**
- * World tunables for PALM COAST. One world unit = one metre (spec 7).
+ * World tunables for NEO TOKYO. One world unit = one metre (spec 7).
  *
  * Every dimension here is a real-world measurement so that scale reads
  * correctly: a 3.6 m lane, a 0.15 m kerb, a 2.1 m door, a 3.2 m storey.

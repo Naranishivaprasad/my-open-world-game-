@@ -1,5 +1,5 @@
 /**
- * PALM COAST driving test (spec 37, VEHICLE section).
+ * NEO TOKYO driving test (spec 37, VEHICLE section).
  *
  * Drives real Chrome on the real GPU and asserts against live vehicle state.
  * Every check below maps to a line in the brief's vehicle test list.

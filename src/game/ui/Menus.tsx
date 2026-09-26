@@ -182,7 +182,7 @@ export function PauseMenu({
     <div className="overlay overlay--scrim">
       <div className="panel panel--narrow">
         <p className="eyebrow">Paused</p>
-        <h2 style={{ margin: '0.1em 0 0', fontSize: '1.6em' }}>Palm Coast</h2>
+        <h2 style={{ margin: '0.1em 0 0', fontSize: '1.6em' }}>Neo Tokyo</h2>
         <div className="menu-list">
           <button className="btn btn--primary btn--wide" onClick={onResume} autoFocus>
             <span>Resume</span>
@@ -420,7 +420,7 @@ export function CreditsPanel({ onBack }: { onBack: () => void }) {
         <p className="eyebrow">Credits</p>
         <h2 style={{ margin: 0, fontSize: '1.5em' }}>Third-party assets</h2>
         <p className="hint" style={{ marginTop: '0.6em' }}>
-          PALM COAST is an original work. It is not affiliated with, endorsed by, or derived from
+          NEO TOKYO is an original work. It is not affiliated with, endorsed by, or derived from
           any commercial game. No assets were extracted from another game.
         </p>
 

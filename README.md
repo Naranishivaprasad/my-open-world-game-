@@ -1,4 +1,4 @@
-# PALM COAST
+# NEO TOKYO
 
 An original, browser-playable open-world action game set in a fictional tropical
 coastal city. No Unreal Engine, no Unity, no cloud streaming — it runs in a

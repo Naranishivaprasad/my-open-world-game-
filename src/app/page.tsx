@@ -12,7 +12,7 @@ const GameRoot = dynamic(() => import('@/game/GameRoot'), {
   loading: () => (
     <div className="overlay overlay--scrim">
       <div className="panel panel--narrow" style={{ textAlign: 'center' }}>
-        <p className="eyebrow">Palm Coast</p>
+        <p className="eyebrow">Neo Tokyo</p>
         <p className="subtitle">Starting engine&hellip;</p>
       </div>
     </div>

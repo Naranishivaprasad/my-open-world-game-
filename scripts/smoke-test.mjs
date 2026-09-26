@@ -1,5 +1,5 @@
 /**
- * PALM COAST browser smoke test (spec 37).
+ * NEO TOKYO browser smoke test (spec 37).
  *
  * Drives a REAL Chrome with the REAL GPU and asserts against live simulation
  * state exposed at window.__PALM__, not against pixels. Any FPS number it

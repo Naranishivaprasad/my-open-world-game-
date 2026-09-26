@@ -1,5 +1,5 @@
 /**
- * PALM COAST living-world test (spec 37, WORLD section).
+ * NEO TOKYO living-world test (spec 37, WORLD section).
  *
  * Asserts on live traffic / pedestrian / police state in a real browser.
  */

@@ -1,14 +1,14 @@
 import { FIRST_DELIVERY, type Objective } from './mission';
 
 /**
- * The PALM COAST campaign (spec 24).
+ * The NEO TOKYO campaign (spec 24).
  *
  * Missions are authored as DATA. Every objective has a real completion
  * condition checked against live simulation state - where you are, what you
  * are driving, whether the police have lost you - and nothing completes on a
  * timer alone.
  *
- * All characters, businesses and dialogue are original to PALM COAST.
+ * All characters, businesses and dialogue are original to NEO TOKYO.
  *
  * POSITIONS: every `driveTo` and `checkpoint` here sits on a ROAD JUNCTION
  * whose coordinates come straight from the road graph's own street table, so

@@ -1,5 +1,5 @@
 /**
- * PALM COAST mission test (spec 37, MISSIONS section).
+ * NEO TOKYO mission test (spec 37, MISSIONS section).
  *
  * Plays FIRST DELIVERY from beginning to end in a real browser and asserts on
  * live mission state: start, each objective, completion, the one-time reward,

@@ -80,7 +80,7 @@ export interface RoadGraph {
 // ---------------------------------------------------------------- map definition
 
 /**
- * PALM COAST — Vista Del Mar and the seafront.
+ * NEO TOKYO — Vista Del Mar and the seafront.
  *
  * The map is GENERATED from two lists of roads rather than a hand-written node
  * table, so the city can grow without the table becoming unmaintainable. Every

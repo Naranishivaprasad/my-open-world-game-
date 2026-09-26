@@ -1,5 +1,5 @@
 /**
- * PALM COAST asset fetcher.
+ * NEO TOKYO asset fetcher.
  *
  * Downloads third-party assets into project-controlled storage under /public
  * (spec 6: no hotlinking, no invented URLs). Every URL in ASSETS below was

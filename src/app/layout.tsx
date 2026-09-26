@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'PALM COAST',
+  title: 'NEO TOKYO',
   description:
     'An original browser-playable open-world action-driving game set in a fictional tropical coastal city.',
 };

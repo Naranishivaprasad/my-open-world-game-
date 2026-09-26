@@ -400,7 +400,7 @@ export function MapScreen({ onClose }: { onClose: () => void }) {
     >
       <header style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
         <h2 style={{ margin: 0, font: '600 20px/1.2 system-ui, sans-serif', color: '#f3f1ec' }}>
-          PALM COAST
+          NEO TOKYO
         </h2>
         <span style={{ font: '13px ui-monospace, monospace', color: '#ffb347' }}>
           {formatClock(sim.time.hour)}

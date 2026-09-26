@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { MeshBuilder } from './meshBuilder';
 
 /**
- * Procedural geometry for every non-hero vehicle in Palm Coast (spec 15, 16).
+ * Procedural geometry for every non-hero vehicle in Neo Tokyo (spec 15, 16).
  *
  * COORDINATE CONVENTION
  * Forward is +X, up is +Y, right is +Z. The wheels sit on y = 0, so an
@@ -746,7 +746,7 @@ export function makePoliceGeometry(): THREE.BufferGeometry {
 export const POLICE_SPEC: VehicleSpec = {
   ...VEHICLE_TYPES.sedan,
   key: 'sedan',
-  label: 'Palm Coast PD Cruiser',
+  label: 'Neo Tokyo PD Cruiser',
   mass: 1560,
   engineForce: 9200,
   topSpeedKph: 190,

@@ -6,7 +6,7 @@
  * state. Nothing here is cosmetic — every objective must actually be satisfied
  * by playing.
  *
- * All names, businesses and dialogue are original to PALM COAST.
+ * All names, businesses and dialogue are original to NEO TOKYO.
  */
 
 export type ObjectiveKind =

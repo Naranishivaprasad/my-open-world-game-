@@ -379,7 +379,7 @@ function PortraitBlocker() {
       <div style={{ fontSize: '3em', marginBottom: '0.2em' }}>↻</div>
       <h2 style={{ fontSize: '1.5em', marginBottom: '0.5em', color: 'var(--accent)' }}>Please Rotate Your Device</h2>
       <p style={{ color: 'var(--ink-dim)', marginBottom: '1.5em', maxWidth: '300px' }}>
-        PALM COAST is designed to be played in Landscape mode. Turn your phone sideways to continue playing.
+        NEO TOKYO is designed to be played in Landscape mode. Turn your phone sideways to continue playing.
       </p>
       <button 
         className="btn btn--primary"
@@ -436,7 +436,7 @@ function LoadingOverlay() {
             color: '#ffffff'
           }}
         >
-          Loading Palm Coast... {Math.round(progress)}%
+          Loading Neo Tokyo... {Math.round(progress)}%
         </h1>
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', fontSize: '0.8rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
