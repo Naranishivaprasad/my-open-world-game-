@@ -30,7 +30,11 @@ export function AudioDriver() {
   }, []);
 
   useEffect(() => {
-    if (phase !== 'playing') audio.suspend();
+    if (phase !== 'playing') {
+      audio.suspend();
+    } else {
+      void audio.start();
+    }
   }, [phase]);
 
   useFrame((_, delta) => {
