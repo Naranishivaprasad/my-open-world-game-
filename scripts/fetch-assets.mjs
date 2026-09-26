@@ -104,15 +104,7 @@ const MODELS = [
     license: 'MIT',
     attributionRequired: false,
   },
-  {
-    as: 'buggy',
-    url: 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/Buggy/glTF-Binary/Buggy.glb',
-    use: 'Diverse NPC vehicle',
-    sourcePage: 'https://github.com/KhronosGroup/glTF-Sample-Models',
-    author: 'Khronos Group',
-    license: 'CC0',
-    attributionRequired: false,
-  },
+
   {
     as: 'car_concept',
     url: 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Assets@main/Models/CarConcept/glTF-Binary/CarConcept.glb',

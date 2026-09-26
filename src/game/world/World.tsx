@@ -138,7 +138,7 @@ export function World({
       <Vegetation city={city} quality={quality} />
       <Buildings city={city} quality={quality} />
       <MilkTrucks city={city} />
-      <Buggys city={city} />
+      <ParkedFerraris city={city} />
       <CarConcepts city={city} />
       <NPCModels />
     </group>
@@ -500,17 +500,17 @@ function MilkTrucks({ city }: { city: CityBuild }) {
   );
 }
 
-function Buggys({ city }: { city: CityBuild }) {
-  const model = useGLTF('/models/vendor/buggy.glb');
+function ParkedFerraris({ city }: { city: CityBuild }) {
+  const model = useGLTF('/models/vendor/hero_car.glb');
   return (
-    <group name="buggys">
-      {city.props.parkedBuggys?.map((inst, i) => (
+    <group name="parked-ferraris">
+      {city.props.parkedFerraris?.map((inst, i) => (
         <primitive
           key={i}
           object={model.scene.clone()}
-          position={[inst.x, inst.y + 0.3, inst.z]}
+          position={[inst.x, inst.y, inst.z]}
           rotation={[0, inst.rotY, 0]}
-          scale={inst.scale * 0.02}
+          scale={inst.scale * 1.5}
         />
       ))}
     </group>
@@ -534,7 +534,7 @@ function CarConcepts({ city }: { city: CityBuild }) {
   );
 }
 
-useGLTF.preload('/models/vendor/buggy.glb');
+useGLTF.preload('/models/vendor/hero_car.glb');
 useGLTF.preload('/models/vendor/car_concept.glb');
 
 useGLTF.preload('/models/vendor/milk_truck.glb');
