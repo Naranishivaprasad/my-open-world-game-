@@ -170,8 +170,8 @@ function NPCModels() {
 
   return (
     <group name="npc-models">
-      <primitive object={soldier.scene} position={[88, 0, 10]} scale={1.2} />
-      <primitive object={robot.scene} position={[132, 0, -65]} scale={1.2} />
+      <primitive object={soldier.scene} position={[88, 0.9, 10]} scale={1.2} />
+      <primitive object={robot.scene} position={[132, 0.9, -65]} scale={1.2} />
     </group>
   );
 }
