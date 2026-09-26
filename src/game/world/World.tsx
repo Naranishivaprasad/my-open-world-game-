@@ -508,9 +508,9 @@ function Buggys({ city }: { city: CityBuild }) {
         <primitive
           key={i}
           object={model.scene.clone()}
-          position={[inst.x, inst.y, inst.z]}
+          position={[inst.x, inst.y + 0.3, inst.z]}
           rotation={[0, inst.rotY, 0]}
-          scale={inst.scale * 1.5}
+          scale={inst.scale * 0.02}
         />
       ))}
     </group>
@@ -525,7 +525,7 @@ function CarConcepts({ city }: { city: CityBuild }) {
         <primitive
           key={i}
           object={model.scene.clone()}
-          position={[inst.x, inst.y, inst.z]}
+          position={[inst.x, inst.y + 0.55, inst.z]}
           rotation={[0, inst.rotY, 0]}
           scale={inst.scale}
         />
