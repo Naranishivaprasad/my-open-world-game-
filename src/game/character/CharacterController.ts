@@ -154,6 +154,7 @@ export class CharacterController {
       this.vy = MOVEMENT.jumpSpeed;
       this.jumpLatched = true;
       this.grounded = false;
+      audio.playJumpSound();
     }
     if (!input.jumpHeld) this.jumpLatched = false;
 
@@ -180,7 +181,10 @@ export class CharacterController {
 
     // Landing or head-bump: kill vertical momentum so we do not accumulate.
     if (this.grounded && this.vy < 0) this.vy = 0;
-    if (!wasGrounded && this.grounded) this.airTime = 0;
+    if (!wasGrounded && this.grounded) {
+      this.airTime = 0;
+      audio.playLandSound();
+    }
     // Hit a ceiling: moved less upward than asked.
     if (this.vy > 0 && moved.y < desired.y - 1e-4) this.vy = 0;
 

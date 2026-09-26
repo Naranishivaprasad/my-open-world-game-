@@ -401,6 +401,45 @@ export class AudioSystem {
     noiseNode.stop(this.ctx.currentTime + 0.1);
   }
 
+  playJumpSound() {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(200, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(400, this.ctx.currentTime + 0.1);
+    
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+    
+    osc.connect(gain);
+    gain.connect(this.sfxBus!);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.2);
+  }
+
+  playLandSound() {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    const noiseNode = this.ctx.createBufferSource();
+    noiseNode.buffer = this.tyreNoise?.buffer || null;
+    if (!noiseNode.buffer) return;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(300, this.ctx.currentTime);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.2);
+
+    noiseNode.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.sfxBus!);
+
+    noiseNode.start();
+    noiseNode.stop(this.ctx.currentTime + 0.2);
+  }
+
   dispose() {
     this.disposed = true;
     for (const v of this.engineVoices) {
