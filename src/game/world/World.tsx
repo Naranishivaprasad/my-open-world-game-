@@ -138,6 +138,8 @@ export function World({
       <Vegetation city={city} quality={quality} />
       <Buildings city={city} quality={quality} />
       <MilkTrucks city={city} />
+      <Buggys city={city} />
+      <CarConcepts city={city} />
       <NPCModels />
     </group>
   );
@@ -497,6 +499,43 @@ function MilkTrucks({ city }: { city: CityBuild }) {
     </group>
   );
 }
+
+function Buggys({ city }: { city: CityBuild }) {
+  const model = useGLTF('/models/vendor/buggy.glb');
+  return (
+    <group name="buggys">
+      {city.props.parkedBuggys?.map((inst, i) => (
+        <primitive
+          key={i}
+          object={model.scene.clone()}
+          position={[inst.x, inst.y, inst.z]}
+          rotation={[0, inst.rotY, 0]}
+          scale={inst.scale * 1.5}
+        />
+      ))}
+    </group>
+  );
+}
+
+function CarConcepts({ city }: { city: CityBuild }) {
+  const model = useGLTF('/models/vendor/car_concept.glb');
+  return (
+    <group name="car-concepts">
+      {city.props.parkedCarConcepts?.map((inst, i) => (
+        <primitive
+          key={i}
+          object={model.scene.clone()}
+          position={[inst.x, inst.y, inst.z]}
+          rotation={[0, inst.rotY, 0]}
+          scale={inst.scale}
+        />
+      ))}
+    </group>
+  );
+}
+
+useGLTF.preload('/models/vendor/buggy.glb');
+useGLTF.preload('/models/vendor/car_concept.glb');
 
 useGLTF.preload('/models/vendor/milk_truck.glb');
 

@@ -46,6 +46,26 @@
       "attributionRequired": false
     },
     {
+      "id": "khronos:buggy",
+      "localPath": "/models/vendor/buggy.glb",
+      "kind": "model",
+      "use": "Diverse NPC vehicle",
+      "sourcePage": "https://github.com/KhronosGroup/glTF-Sample-Models",
+      "author": "Khronos Group",
+      "license": "CC0",
+      "attributionRequired": false
+    },
+    {
+      "id": "khronos:car_concept",
+      "localPath": "/models/vendor/car_concept.glb",
+      "kind": "model",
+      "use": "Diverse NPC vehicle",
+      "sourcePage": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "author": "Khronos Group",
+      "license": "CC0",
+      "attributionRequired": false
+    },
+    {
       "id": "khronos:tokyo_building",
       "localPath": "/models/vendor/tokyo_building.glb",
       "kind": "model",

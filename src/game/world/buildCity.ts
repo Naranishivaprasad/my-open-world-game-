@@ -86,6 +86,8 @@ export interface CityBuild {
     cone: PropInstance[];
     acUnit: PropInstance[];
     parkedMilkTrucks: PropInstance[];
+    parkedBuggys: PropInstance[];
+    parkedCarConcepts: PropInstance[];
     /** Parked vehicles, grouped by body class so each gets one instanced mesh. */
     parkedVehicles: Record<VehicleKey, PropInstance[]>;
   };
@@ -198,6 +200,8 @@ export function buildCity(seed = hashSeed('palm-coast-v1')): CityBuild {
     cone: [],
     acUnit: [],
     parkedMilkTrucks: [],
+    parkedBuggys: [],
+    parkedCarConcepts: [],
     parkedVehicles: Object.fromEntries(
       (Object.keys(VEHICLE_TYPES) as VehicleKey[]).map((k) => [k, [] as PropInstance[]]),
     ) as Record<VehicleKey, PropInstance[]>,
@@ -1506,5 +1510,25 @@ function addStreetFurniture(
   // A few cones around a patched section of the alley.
   for (let i = 0; i < 6; i++) {
     props.cone.push({ x: -18 + randRange(rng, -1.6, 1.6), y: 0, z: 56 + i * 2.4, rotY: randRange(rng, 0, 6.28), scale: 1 });
+  }
+
+  // Randomly place some Buggys and Car Concepts
+  for (let i = 0; i < 15; i++) {
+    props.parkedBuggys.push({
+      x: randRange(rng, -300, 300),
+      y: 0,
+      z: randRange(rng, -300, 300),
+      rotY: randRange(rng, 0, 6.28),
+      scale: 1
+    });
+  }
+  for (let i = 0; i < 15; i++) {
+    props.parkedCarConcepts.push({
+      x: randRange(rng, -300, 300),
+      y: 0,
+      z: randRange(rng, -300, 300),
+      rotY: randRange(rng, 0, 6.28),
+      scale: 1
+    });
   }
 }
