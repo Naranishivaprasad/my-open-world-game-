@@ -66,7 +66,7 @@ const HDRIS = [
 const MODELS = [
   {
     as: 'hero_car',
-    url: 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/ferrari.glb',
+    url: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/models/gltf/ferrari.glb',
     use: 'Player hero vehicle: body, four wheel pivots, modelled interior',
     sourcePage: 'https://github.com/mrdoob/three.js/tree/master/examples/models/gltf',
     author: 'Three.js Examples',
@@ -75,6 +75,34 @@ const MODELS = [
     attributionRequired: false,
     attributionText: 'Ferrari model from Three.js examples repository.',
     modifications: 'Node names re-mapped in config.',
+  },
+  {
+    as: 'milk_truck',
+    url: 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Assets@main/Models/CesiumMilkTruck/glTF-Binary/CesiumMilkTruck.glb',
+    use: 'Diverse NPC vehicle',
+    sourcePage: 'https://github.com/KhronosGroup/glTF-Sample-Assets',
+    author: 'Cesium',
+    license: 'CC-BY-4.0',
+    attributionRequired: true,
+    attributionText: 'Cesium Milk Truck by Cesium.',
+  },
+  {
+    as: 'buggy',
+    url: 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Assets@main/Models/Buggy/glTF-Binary/Buggy.glb',
+    use: 'Diverse NPC vehicle',
+    sourcePage: 'https://github.com/KhronosGroup/glTF-Sample-Assets',
+    author: 'Khronos Group',
+    license: 'CC0',
+    attributionRequired: false,
+  },
+  {
+    as: 'tokyo_building',
+    url: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/models/gltf/LittlestTokyo.glb',
+    use: 'Special Building Model',
+    sourcePage: 'https://github.com/mrdoob/three.js/tree/master/examples/models/gltf',
+    author: 'Three.js Examples',
+    license: 'CC0',
+    attributionRequired: false,
   },
 ];
 

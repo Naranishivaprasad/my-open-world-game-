@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react';
 import { useRapier } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 import { buildCity, type CityBuild, type PropInstance } from './buildCity';
 import type { GeometryChunk } from './meshBuilder';
 import { isOnCarriageway } from './roadGraph';
@@ -135,6 +136,8 @@ export function World({
       <ParkedVehicles quality={quality} />
       <SignalLights quality={quality} />
       <Vegetation city={city} quality={quality} />
+      <Buildings city={city} quality={quality} />
+      <MilkTrucks city={city} />
     </group>
   );
 }
@@ -421,6 +424,46 @@ function ParkedVehicles({ quality }: { quality: QualitySettings }) {
     </group>
   );
 }
+
+function Buildings({ city, quality }: { city: CityBuild; quality: QualitySettings }) {
+  const tokyo = useGLTF('/models/vendor/tokyo_building.glb');
+
+  return (
+    <group name="buildings-tokyo">
+      {city.buildings?.tokyo.map((inst, i) => (
+        <primitive
+          key={i}
+          object={tokyo.scene.clone()}
+          position={[inst.x, inst.y, inst.z]}
+          rotation={[0, inst.rotY, 0]}
+          scale={inst.scale}
+        />
+      ))}
+    </group>
+  );
+}
+
+useGLTF.preload('/models/vendor/tokyo_building.glb');
+
+function MilkTrucks({ city }: { city: CityBuild }) {
+  const model = useGLTF('/models/vendor/milk_truck.glb');
+
+  return (
+    <group name="milk-trucks">
+      {city.props.parkedMilkTrucks?.map((inst, i) => (
+        <primitive
+          key={i}
+          object={model.scene.clone()}
+          position={[inst.x, inst.y, inst.z]}
+          rotation={[0, inst.rotY, 0]}
+          scale={inst.scale * 1.5}
+        />
+      ))}
+    </group>
+  );
+}
+
+useGLTF.preload('/models/vendor/milk_truck.glb');
 
 function Vegetation({ city, quality }: { city: CityBuild; quality: QualitySettings }) {
   const geos = useMemo(() => ({

@@ -85,6 +85,7 @@ export interface CityBuild {
     bollard: PropInstance[];
     cone: PropInstance[];
     acUnit: PropInstance[];
+    parkedMilkTrucks: PropInstance[];
     /** Parked vehicles, grouped by body class so each gets one instanced mesh. */
     parkedVehicles: Record<VehicleKey, PropInstance[]>;
   };
@@ -93,6 +94,9 @@ export interface CityBuild {
     shrub: PropInstance[];
     pine: PropInstance[];
     grass: PropInstance[];
+  };
+  buildings: {
+    tokyo: PropInstance[];
   };
   stats: {
     triangles: number;
@@ -193,11 +197,13 @@ export function buildCity(seed = hashSeed('palm-coast-v1')): CityBuild {
     bollard: [],
     cone: [],
     acUnit: [],
+    parkedMilkTrucks: [],
     parkedVehicles: Object.fromEntries(
       (Object.keys(VEHICLE_TYPES) as VehicleKey[]).map((k) => [k, [] as PropInstance[]]),
     ) as Record<VehicleKey, PropInstance[]>,
   };
   const vegetation: CityBuild['vegetation'] = { palm: [], shrub: [], pine: [], grass: [] };
+  const buildings: CityBuild['buildings'] = { tokyo: [] };
   /** Driveway slots collected during the frontage pass. */
   const parkedDriveway: { x: number; z: number; alongZ: boolean }[] = [];
   let buildingCount = 0;
@@ -338,7 +344,7 @@ export function buildCity(seed = hashSeed('palm-coast-v1')): CityBuild {
 
     const district = districtFor(block.cx, block.cz);
     buildingCount += buildFrontages(rng, {
-      facade, roof, glass, accent, metal, colliders, props, vegetation, parkedDriveway,
+      facade, roof, glass, accent, metal, colliders, props, vegetation, buildings, parkedDriveway,
       rect: [block.x0, block.z0, block.x1, block.z1],
       // Every side of a grid block faces a street.
       sides: { south: true, north: true, west: true, east: true },
@@ -348,12 +354,17 @@ export function buildCity(seed = hashSeed('palm-coast-v1')): CityBuild {
 
   // ------------------------------------------------------ bespoke landmarks
 
-  addParkingLot(rng, { road, markings, facade, roof, glass, accent, metal, colliders, props, vegetation, parkedDriveway });
-  addGasStation(rng, { road, markings, facade, roof, glass, accent, metal, colliders, props, vegetation, parkedDriveway });
+  addParkingLot(rng, { road, markings, facade, roof, glass, accent, metal, colliders, props, vegetation, buildings, parkedDriveway });
+  addGasStation(rng, { road, markings, facade, roof, glass, accent, metal, colliders, props, vegetation, buildings, parkedDriveway });
   // Driveway cars, emitted after the frontage pass so they never land on a road.
   for (const slot of parkedDriveway) {
     if (isOnCarriageway(slot.x, slot.z, 1.4)) continue;
-    addParkedCar(rng, props, colliders, slot.x, slot.z, slot.alongZ);
+    if (chance(rng, 0.1)) {
+      props.parkedMilkTrucks.push({ x: slot.x, y: 0, z: slot.z, rotY: slot.alongZ ? Math.PI / 2 : 0, scale: 1.0 });
+      colliders.push(boxCollider(slot.x, 1.5, slot.z, slot.alongZ ? 2 : 4.5, 3, slot.alongZ ? 4.5 : 2));
+    } else {
+      addParkedCar(rng, props, colliders, slot.x, slot.z, slot.alongZ);
+    }
   }
 
   addCoast(rng, sand, accent, metal, props, vegetation, colliders);
@@ -398,6 +409,7 @@ export function buildCity(seed = hashSeed('palm-coast-v1')): CityBuild {
     colliders,
     props,
     vegetation,
+    buildings,
     stats: { triangles, colliders: colliders.length, buildings: buildingCount },
   };
 }
@@ -515,6 +527,7 @@ interface BuildCtx {
   colliders: BoxColliderDef[];
   props: CityBuild['props'];
   vegetation: CityBuild['vegetation'];
+  buildings: CityBuild['buildings'];
 }
 
 export type District = 'commercial' | 'residential' | 'industrial' | 'downtown' | 'seafront';
@@ -588,7 +601,12 @@ function buildFrontages(
       const sx = axis === 'x' ? w : d;
       const sz = axis === 'x' ? d : w;
 
-      addBuilding(rng, opts, bx, bz, sx, sz, h, storeys, opts.district, axis, -inward as 1 | -1);
+      if (opts.district === 'downtown' && chance(rng, 0.05)) {
+        opts.buildings.tokyo.push({ x: bx, y: 0, z: bz, rotY: axis === 'x' ? 0 : Math.PI / 2, scale: 0.1 });
+        opts.colliders.push(boxCollider(bx, 5, bz, sx, 10, sz));
+      } else {
+        addBuilding(rng, opts, bx, bz, sx, sz, h, storeys, opts.district, axis, -inward as 1 | -1);
+      }
       count++;
 
       // A gap between lots: alley slot, yard, or loading bay.

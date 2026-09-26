@@ -19,13 +19,14 @@ export function CombatSystem() {
       direction.applyQuaternion(camera.quaternion);
 
       // Play gunshot
-      audio.play('gunshot', camera.position, 1.0, 1.0);
+      audio.playGunshotSound();
 
       const ray = new rapier.Ray(origin, direction);
       const hit = world.castRay(ray, 100, true, rapier.QueryFilterFlags.EXCLUDE_SENSORS);
 
       if (hit) {
-        const point = ray.pointAt(hit.toi);
+        const point = ray.pointAt((hit as any).toi);
+        const pointV3 = new THREE.Vector3(point.x, point.y, point.z);
         
         // Find if it hit a pedestrian
         const peds = sim.pedestrians?.peds;
@@ -34,7 +35,7 @@ export function CombatSystem() {
           if (ped) {
             sim.pedestrians.knock(ped);
             ped.body.applyImpulse(direction.multiplyScalar(150), true);
-            BloodDecalSystem.addBlood(point);
+            BloodDecalSystem.addBlood(pointV3);
             sim.police.wanted = Math.max(sim.police.wanted, 2);
             return;
           }

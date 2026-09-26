@@ -182,6 +182,8 @@ export interface Sim {
   toast: string | null;
   /** Set by the renderer so non-React systems can raycast against the world. */
   scene: THREE.Scene | null;
+  /** Used by CombatSystem to damage pedestrians. */
+  pedestrians: any;
 }
 
 export const sim: Sim = {

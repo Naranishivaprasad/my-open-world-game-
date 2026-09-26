@@ -6,13 +6,34 @@
       "localPath": "/models/vendor/hero_car.glb",
       "kind": "model",
       "use": "Player hero vehicle: body, four wheel pivots, modelled interior",
-      "sourcePage": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept",
-      "author": "Eric Chadwick / Darmstadt Graphics Group GmbH",
-      "license": "CC BY 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourcePage": "https://github.com/mrdoob/three.js/tree/master/examples/models/gltf",
+      "author": "Three.js Examples",
+      "license": "MIT",
+      "licenseUrl": "https://github.com/mrdoob/three.js/blob/master/LICENSE",
+      "attributionRequired": false,
+      "attributionText": "Ferrari model from Three.js examples repository.",
+      "modifications": "Node names re-mapped in config."
+    },
+    {
+      "id": "khronos:milk_truck",
+      "localPath": "/models/vendor/milk_truck.glb",
+      "kind": "model",
+      "use": "Diverse NPC vehicle",
+      "sourcePage": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "author": "Cesium",
+      "license": "CC-BY-4.0",
       "attributionRequired": true,
-      "attributionText": "CarConcept by Eric Chadwick / Darmstadt Graphics Group GmbH, licensed CC BY 4.0, from the Khronos glTF Sample Assets repository.",
-      "modifications": "Khronos and 3D Commerce logo meshes and the licence plate are hidden at runtime (the licence excludes logos and trademarks). Body paint is retinted."
+      "attributionText": "Cesium Milk Truck by Cesium."
+    },
+    {
+      "id": "khronos:tokyo_building",
+      "localPath": "/models/vendor/tokyo_building.glb",
+      "kind": "model",
+      "use": "Special Building Model",
+      "sourcePage": "https://github.com/mrdoob/three.js/tree/master/examples/models/gltf",
+      "author": "Three.js Examples",
+      "license": "CC0",
+      "attributionRequired": false
     },
     {
       "id": "polyhaven:aristea_wreck_puresky",

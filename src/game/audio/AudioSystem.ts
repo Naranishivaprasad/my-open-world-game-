@@ -346,6 +346,38 @@ export class AudioSystem {
     osc.stop(this.ctx.currentTime + 0.5);
   }
 
+  playGunshotSound() {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 0.3);
+
+    const noiseNode = this.ctx.createBufferSource();
+    noiseNode.buffer = this.tyreNoise?.buffer || null;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(5000, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.3);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(1.0, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+
+    osc.connect(filter);
+    if (noiseNode.buffer) {
+      noiseNode.connect(filter);
+      noiseNode.start();
+      noiseNode.stop(this.ctx.currentTime + 0.3);
+    }
+    filter.connect(gain);
+    gain.connect(this.sfxBus!);
+
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.3);
+  }
+
   playFootstepSound() {
     if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
     const noiseNode = this.ctx.createBufferSource();
