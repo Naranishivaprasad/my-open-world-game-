@@ -13,7 +13,9 @@ export function CombatSystem() {
     if (sim.police.state === 'busted') {
       if (!(window as any).bustedTimer) (window as any).bustedTimer = sim.elapsed;
       if (sim.elapsed - (window as any).bustedTimer > 3) {
-        sim.player.body?.setTranslation({ x: 0, y: 1, z: 0 }, true);
+        if ((window as any).__PALM__?.teleport) {
+          (window as any).__PALM__.teleport(0, 1, 0);
+        }
         sim.police.wanted = 0;
         sim.police.state = 'unaware';
         if ((window as any).__PALM__?.police) {
