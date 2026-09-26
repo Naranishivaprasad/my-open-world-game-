@@ -10,6 +10,23 @@ export function CombatSystem() {
   const { camera } = useThree();
 
   useFrame(() => {
+    if (sim.police.state === 'busted') {
+      if (!(window as any).bustedTimer) (window as any).bustedTimer = sim.elapsed;
+      if (sim.elapsed - (window as any).bustedTimer > 3) {
+        sim.player.body?.setTranslation({ x: 0, y: 1, z: 0 }, true);
+        sim.police.wanted = 0;
+        sim.police.state = 'unaware';
+        if ((window as any).__PALM__?.police) {
+          (window as any).__PALM__.police.wanted = 0;
+          (window as any).__PALM__.police.state = 'unaware';
+        }
+        (window as any).bustedTimer = null;
+      }
+      return;
+    } else {
+      (window as any).bustedTimer = null;
+    }
+
     if (sim.controlMode !== 'foot') return;
 
     if (sim.input.firePressed && sim.input.aimHeld) {

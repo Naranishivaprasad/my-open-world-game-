@@ -175,6 +175,33 @@ export function HUD() {
       {health < 100 && <HealthBar value={health} />}
 
       <DriveCluster />
+
+      {/* CROSSHAIR */}
+      <Crosshair />
+    </div>
+  );
+}
+
+function Crosshair() {
+  const show = useSimSample(() => sim.controlMode === 'foot' && sim.input.aimHeld, 12);
+  
+  if (!show) return null;
+  return (
+    <div style={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '4px',
+      height: '4px',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      borderRadius: '50%',
+      pointerEvents: 'none'
+    }}>
+      <div style={{ position: 'absolute', top: -10, left: 1, width: 2, height: 8, backgroundColor: 'white' }} />
+      <div style={{ position: 'absolute', bottom: -10, left: 1, width: 2, height: 8, backgroundColor: 'white' }} />
+      <div style={{ position: 'absolute', left: -10, top: 1, width: 8, height: 2, backgroundColor: 'white' }} />
+      <div style={{ position: 'absolute', right: -10, top: 1, width: 8, height: 2, backgroundColor: 'white' }} />
     </div>
   );
 }
