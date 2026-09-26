@@ -114,7 +114,7 @@ export function Player({
     const p = sim.player.position;
     g.position.set(p.x, p.y, p.z);
     const isSitting = sim.controlMode === 'entering' || sim.controlMode === 'exiting' || sim.controlMode === 'vehicle';
-    const sitOffset = isSitting ? Math.PI : 0;
+    const sitOffset = isSitting ? 0 : 0; // Removed Math.PI rotation offset
     g.rotation.y = sim.player.heading + CHARACTER_MODEL.yawOffset + sitOffset;
   });
 
