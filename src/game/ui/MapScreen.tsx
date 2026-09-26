@@ -245,7 +245,7 @@ export function MapScreen({ onClose }: { onClose: () => void }) {
 
       // ------------------------------------------- mission route and blip
       const m = sim.mission;
-      if (m.state === 'active' && m.route && m.route.length > 1) {
+      if ((m.state === 'active' || m.state === 'available') && m.route && m.route.length > 1) {
         ctx.strokeStyle = '#ff5ca8';
         ctx.lineWidth = 2.6 * dpr;
         ctx.lineJoin = 'round';

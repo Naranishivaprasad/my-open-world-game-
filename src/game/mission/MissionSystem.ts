@@ -224,6 +224,7 @@ export class MissionSystem {
       this.route = null;
     } else if (this.state === 'available') {
       this.checkContact();
+      this.updateRoute(dt);
     } else {
       this.route = null;
     }
@@ -363,12 +364,22 @@ export class MissionSystem {
    * when the player has actually moved — A* every frame would be wasteful.
    */
   private updateRoute(dt: number) {
-    const obj = this.objective;
-    // An objective with no radius is not a place - "lose the police" has
-    // nowhere to route to.
-    if (!obj || obj.radius <= 0) {
-      this.route = null;
-      return;
+    let destX = 0;
+    let destZ = 0;
+    
+    if (this.state === 'available' && this.offered) {
+      destX = this.offered.contact.x;
+      destZ = this.offered.contact.z;
+    } else {
+      const obj = this.objective;
+      // An objective with no radius is not a place - "lose the police" has
+      // nowhere to route to.
+      if (!obj || obj.radius <= 0) {
+        this.route = null;
+        return;
+      }
+      destX = obj.x;
+      destZ = obj.z;
     }
 
     this.routeAge += dt;
@@ -382,7 +393,7 @@ export class MissionSystem {
     this.routeAge = 0;
     this.routeFromX = px;
     this.routeFromZ = pz;
-    this.route = findRoute(px, pz, obj.x, obj.z);
+    this.route = findRoute(px, pz, destX, destZ);
   }
 
   // ------------------------------------------------------------- dialogue

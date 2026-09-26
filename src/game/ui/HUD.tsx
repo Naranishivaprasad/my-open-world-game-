@@ -461,7 +461,7 @@ function Minimap() {
 
       // --- mission route, following real roads (spec 29) ---
       const route = sim.mission.route;
-      if (route && route.length > 1 && sim.mission.state === 'active') {
+      if (route && route.length > 1 && (sim.mission.state === 'active' || sim.mission.state === 'available')) {
         ctx.strokeStyle = '#ff5ca8';
         ctx.lineWidth = 3 * dpr;
         ctx.lineJoin = 'round';
@@ -489,7 +489,7 @@ function Minimap() {
 
       // --- objective blip ---
       const m = sim.mission;
-      if (m.state === 'active' && m.route && m.route.length > 0) {
+      if ((m.state === 'active' || m.state === 'available') && m.route && m.route.length > 0) {
         const last = m.route[m.route.length - 1]!;
         const [bx, by] = toScreen(last.x, last.z);
         ctx.fillStyle = '#ffb347';

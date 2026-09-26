@@ -138,9 +138,44 @@ export function World({
       <Vegetation city={city} quality={quality} />
       <Buildings city={city} quality={quality} />
       <MilkTrucks city={city} />
+      <NPCModels />
     </group>
   );
 }
+
+function NPCModels() {
+  const soldier = useGLTF('/models/vendor/soldier.glb');
+  const robot = useGLTF('/models/vendor/robot.glb');
+
+  const mixer1 = useMemo(() => new THREE.AnimationMixer(soldier.scene), [soldier]);
+  const mixer2 = useMemo(() => new THREE.AnimationMixer(robot.scene), [robot]);
+
+  useEffect(() => {
+    if (soldier.animations.length > 0) {
+      const action = mixer1.clipAction(soldier.animations[0]);
+      action.play();
+    }
+    if (robot.animations.length > 0) {
+      const action = mixer2.clipAction(robot.animations[3] || robot.animations[0]); // Usually Idle or Walking
+      action.play();
+    }
+  }, [mixer1, mixer2, soldier.animations, robot.animations]);
+
+  useFrame((_, dt) => {
+    mixer1.update(dt);
+    mixer2.update(dt);
+  });
+
+  return (
+    <group name="npc-models">
+      <primitive object={soldier.scene} position={[88, 0, 10]} scale={1.2} />
+      <primitive object={robot.scene} position={[132, 0, -65]} scale={1.2} />
+    </group>
+  );
+}
+
+useGLTF.preload('/models/vendor/soldier.glb');
+useGLTF.preload('/models/vendor/robot.glb');
 
 /**
  * Draws one surface class as a set of independently cullable chunk meshes.
