@@ -19,52 +19,23 @@ export function makeGunGeometry() {
   
   return mb.build();
 }
-import { useFrame } from '@react-three/fiber';
+import { useFrame, createPortal } from '@react-three/fiber';
 import { sim } from './core/sim';
 
 export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
   const geometry = useMemo(() => makeGunGeometry(), []);
-  const material = useMemo(() => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7, metalness: 0.5 }), []);
-  const meshRef = useRef<THREE.Mesh | null>(null);
   
   useEffect(() => {
     return () => {
       geometry.dispose();
-      material.dispose();
     };
-  }, [geometry, material]);
+  }, [geometry]);
 
-  // We add the mesh into a group, then attach the group to the bone
-  // We use createPortal? No, React Three Fiber primitive or createPortal works.
-  // The simplest is to just manually add/remove it to the bone in an effect.
-  
-  useEffect(() => {
-    const mesh = new THREE.Mesh(geometry, material);
-    // Align weapon with hand bone
-    mesh.rotation.y = Math.PI; 
-    mesh.rotation.x = Math.PI / 2;
-    // Offset so it actually sits in the hand instead of clipping into the neck
-    mesh.position.set(0, 0.15, 0.05);
-    
-    // Default to hidden
-    mesh.visible = false;
-    
-    parentBone.add(mesh);
-    
-    meshRef.current = mesh;
-    
-    return () => {
-      parentBone.remove(mesh);
-      meshRef.current = null;
-    };
-  }, [parentBone, geometry, material]);
-
-  useFrame(() => {
-    if (meshRef.current) {
-      // Keep it always visible so the player knows they have a gun!
-      meshRef.current.visible = true;
-    }
-  });
-
-  return null;
+  // Use createPortal to attach the weapon directly to the bone in the scene graph
+  return createPortal(
+    <mesh geometry={geometry} position={[0, 0.15, 0.05]} rotation={[Math.PI / 2, Math.PI, 0]}>
+      <meshStandardMaterial vertexColors={true} roughness={0.7} metalness={0.5} />
+    </mesh>,
+    parentBone
+  );
 }
