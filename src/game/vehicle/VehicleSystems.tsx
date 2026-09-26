@@ -55,7 +55,7 @@ export function VehicleSystems({
       onPlayClip: (clip) => {
         if (!animator) return;
         if (clip === 'idle') animator.setOverride(null);
-        else if (clip === 'drive') animator.setOverride('drive');
+        else if (clip === 'drive') animator.setOverride('sitIdle');
         else if (clip === 'sitEnter') animator.setOverride('sitEnter', 0.12);
         else if (clip === 'sitExit') animator.setOverride('sitExit', 0.12);
       },
