@@ -282,7 +282,7 @@ export const ANCHORS = {
    * the car's roof was at 0.765, so 7 cm of head was outside the car. Dropped
    * 10 cm to tuck it under with a little clearance.
    */
-  driverSeat: { x: -0.35, y: -0.3, z: -0.1 },
+  driverSeat: { x: -0.35, y: -0.15, z: -0.1 },
   /**
    * Driver eye: on the centreline, behind and above the wheel, below the
    * windscreen top (windscreen centre is body (0, 0.971, -0.874)).

@@ -196,6 +196,9 @@ export default function GameRoot() {
     missionRef.current?.restart();
     setHasSession(true);
     
+    // Start audio context on user gesture (Play button click)
+    void audio.start();
+    
     // Jump straight into the game, as the world is already loaded!
     setPhase('playing');
 
