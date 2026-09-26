@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { MeshBuilder } from './world/meshBuilder';
 
 export function makeGunGeometry() {
@@ -19,10 +19,13 @@ export function makeGunGeometry() {
   
   return mb.build();
 }
+import { useFrame } from '@react-three/fiber';
+import { sim } from './core/sim';
 
 export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
   const geometry = useMemo(() => makeGunGeometry(), []);
   const material = useMemo(() => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7, metalness: 0.5 }), []);
+  const meshRef = useRef<THREE.Mesh | null>(null);
   
   useEffect(() => {
     return () => {
@@ -42,11 +45,24 @@ export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
     mesh.rotation.x = Math.PI / 2;
     mesh.position.set(0, 0.05, 0);
     
+    // Default to hidden
+    mesh.visible = false;
+    
     parentBone.add(mesh);
+    
+    meshRef.current = mesh;
+    
     return () => {
       parentBone.remove(mesh);
+      meshRef.current = null;
     };
   }, [parentBone, geometry, material]);
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.visible = sim.controlMode === 'foot' && sim.input.aimHeld;
+    }
+  });
 
   return null;
 }

@@ -138,8 +138,6 @@ export function World({
       <Vegetation city={city} quality={quality} />
       <Buildings city={city} quality={quality} />
       <MilkTrucks city={city} />
-      <ParkedFerraris city={city} />
-      <CarConcepts city={city} />
     </group>
   );
 }
