@@ -43,7 +43,8 @@ export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
     // Align weapon with hand bone
     mesh.rotation.y = Math.PI; 
     mesh.rotation.x = Math.PI / 2;
-    mesh.position.set(0, 0.05, 0);
+    // Offset so it actually sits in the hand instead of clipping into the neck
+    mesh.position.set(0, 0.15, 0.05);
     
     // Default to hidden
     mesh.visible = false;
@@ -60,7 +61,8 @@ export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
 
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.visible = sim.controlMode === 'foot' && sim.input.aimHeld;
+      // Keep it always visible so the player knows they have a gun!
+      meshRef.current.visible = true;
     }
   });
 
