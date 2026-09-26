@@ -86,24 +86,7 @@ const MODELS = [
     attributionRequired: true,
     attributionText: 'Cesium Milk Truck by Cesium.',
   },
-  {
-    as: 'soldier',
-    url: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/models/gltf/Soldier.glb',
-    use: 'Diverse NPC',
-    sourcePage: 'https://github.com/mrdoob/three.js/tree/master/examples/models/gltf',
-    author: 'Three.js Examples',
-    license: 'MIT',
-    attributionRequired: false,
-  },
-  {
-    as: 'robot',
-    url: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
-    use: 'Diverse NPC',
-    sourcePage: 'https://github.com/mrdoob/three.js/tree/master/examples/models/gltf',
-    author: 'Three.js Examples',
-    license: 'MIT',
-    attributionRequired: false,
-  },
+
 
   {
     as: 'car_concept',
