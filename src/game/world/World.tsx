@@ -142,6 +142,7 @@ export function World({
       <CarConcepts city={city} />
     </group>
   );
+}
 
 
 /**

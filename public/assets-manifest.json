@@ -26,36 +26,6 @@
       "attributionText": "Cesium Milk Truck by Cesium."
     },
     {
-      "id": "khronos:soldier",
-      "localPath": "/models/vendor/soldier.glb",
-      "kind": "model",
-      "use": "Diverse NPC",
-      "sourcePage": "https://github.com/mrdoob/three.js/tree/master/examples/models/gltf",
-      "author": "Three.js Examples",
-      "license": "MIT",
-      "attributionRequired": false
-    },
-    {
-      "id": "khronos:robot",
-      "localPath": "/models/vendor/robot.glb",
-      "kind": "model",
-      "use": "Diverse NPC",
-      "sourcePage": "https://github.com/mrdoob/three.js/tree/master/examples/models/gltf",
-      "author": "Three.js Examples",
-      "license": "MIT",
-      "attributionRequired": false
-    },
-    {
-      "id": "khronos:buggy",
-      "localPath": "/models/vendor/buggy.glb",
-      "kind": "model",
-      "use": "Diverse NPC vehicle",
-      "sourcePage": "https://github.com/KhronosGroup/glTF-Sample-Models",
-      "author": "Khronos Group",
-      "license": "CC0",
-      "attributionRequired": false
-    },
-    {
       "id": "khronos:car_concept",
       "localPath": "/models/vendor/car_concept.glb",
       "kind": "model",
