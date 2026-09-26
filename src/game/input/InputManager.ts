@@ -23,6 +23,8 @@ export class InputManager {
 
   private mouseDX = 0;
   private mouseDY = 0;
+  private mouseButtons = new Set<number>();
+  private mouseButtonsPressed = new Set<number>();
 
   public hasTouch = false;
   public mobileMoveX = 0;
@@ -103,6 +105,7 @@ export class InputManager {
     document.addEventListener('pointerlockerror', this.handlePointerLockError);
     el.addEventListener('mousemove', this.handleMouseMove);
     el.addEventListener('mousedown', this.handleMouseDown);
+    el.addEventListener('mouseup', this.handleMouseUp);
     this.attached = true;
   }
 
@@ -116,6 +119,7 @@ export class InputManager {
     document.removeEventListener('pointerlockerror', this.handlePointerLockError);
     this.el?.removeEventListener('mousemove', this.handleMouseMove);
     this.el?.removeEventListener('mousedown', this.handleMouseDown);
+    this.el?.removeEventListener('mouseup', this.handleMouseUp);
     this.el = null;
     this.attached = false;
     this.clearAll();
@@ -139,6 +143,7 @@ export class InputManager {
     this.mobileMoveZ = 0;
     this.mobileLookX = 0;
     this.mobileLookY = 0;
+    this.mouseButtons.clear();
     const i = sim.input;
     i.moveX = 0;
     i.moveZ = 0;
@@ -240,8 +245,17 @@ export class InputManager {
     this.mouseDY += e.movementY;
   };
 
-  private handleMouseDown = () => {
-    if (this.gameplayEnabled && !this.isPointerLocked) this.requestPointerLock();
+  private handleMouseDown = (e: MouseEvent) => {
+    if (this.gameplayEnabled && !this.isPointerLocked) {
+      this.requestPointerLock();
+      return;
+    }
+    this.mouseButtons.add(e.button);
+    this.mouseButtonsPressed.add(e.button);
+  };
+
+  private handleMouseUp = (e: MouseEvent) => {
+    this.mouseButtons.delete(e.button);
   };
 
   private handlePointerLockChange = () => {
@@ -326,6 +340,10 @@ export class InputManager {
     i.enterVehiclePressed = this.consumePress('enterVehicle');
     i.cameraTogglePressed = this.consumePress('cameraToggle');
     i.headlightsPressed = this.consumePress('headlights');
+
+    i.aimHeld = this.mouseButtons.has(2);
+    i.firePressed = this.mouseButtonsPressed.has(0);
+    this.mouseButtonsPressed.clear();
 
     // Look: radians this frame, already scaled by sensitivity.
     const RADIANS_PER_PIXEL = 0.0022;

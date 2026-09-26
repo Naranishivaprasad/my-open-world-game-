@@ -36,7 +36,8 @@ import { StatsProbe } from './debug/StatsProbe';
 import { AudioDriver } from './audio/AudioDriver';
 import { audio } from './audio/AudioSystem';
 import { StartScreen, PauseMenu, ErrorScreen, ClickToPlay } from './ui/Menus';
-import { HAZE } from './config/world';
+import { CombatSystem } from './combat/CombatSystem';
+import { HAZE, PLAYER_SPAWN } from './config/world';
 import { DEBUG_HOOKS } from './core/sim';
 
 /**
@@ -491,9 +492,30 @@ function GameScene({
   const [police, setPolice] = useState<PoliceSystem | null>(null);
   const [pedestrians, setPedestrians] = useState<PedestrianSystem | null>(null);
 
+  const bustedTimerRef = useRef(0);
+
   useEffect(() => {
     onReady();
   }, [onReady]);
+
+  useFrame((_, delta) => {
+    if (sim.police.state === 'busted') {
+      bustedTimerRef.current += Math.min(delta, 0.1);
+      if (bustedTimerRef.current > 3.0) {
+        bustedTimerRef.current = 0;
+        
+        // Teleport back to spawn
+        controller?.teleport(PLAYER_SPAWN.x, PLAYER_SPAWN.y, PLAYER_SPAWN.z, Math.PI);
+        
+        // Reset police state
+        sim.police.state = 'unaware';
+        sim.police.wanted = 0;
+        police?.clear();
+      }
+    } else {
+      bustedTimerRef.current = 0;
+    }
+  });
 
   return (
     <>
@@ -519,6 +541,7 @@ function GameScene({
         <Mission onReady={onMissionReady} police={police} />
         <StatsProbe />
         <AudioDriver />
+        <CombatSystem />
         {/*
           The camera lives INSIDE <Physics> because it shape-casts against the
           world to keep its boom out of walls, and useRapier() is only available

@@ -64,6 +64,8 @@ export interface InputSim {
   throttle: number;
   steer: number;
   handbrake: boolean;
+  aimHeld: boolean;
+  firePressed: boolean;
 }
 
 /** Live hero-vehicle state, published by the vehicle controller each step. */
@@ -224,6 +226,8 @@ export const sim: Sim = {
     throttle: 0,
     steer: 0,
     handbrake: false,
+    aimHeld: false,
+    firePressed: false,
   },
   vehicle: {
     occupied: false,
@@ -275,6 +279,7 @@ export const sim: Sim = {
   interaction: null,
   toast: null,
   scene: null,
+  pedestrians: null as any,
 };
 
 /** Clear per-frame edge-triggered flags. Called at the END of each frame. */
@@ -285,6 +290,7 @@ export function consumeEdgeInputs() {
   i.enterVehiclePressed = false;
   i.cameraTogglePressed = false;
   i.headlightsPressed = false;
+  i.firePressed = false;
 }
 
 /** Reset the simulation to a clean state (new session / restart). */

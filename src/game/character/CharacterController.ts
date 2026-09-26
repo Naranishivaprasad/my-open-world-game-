@@ -2,6 +2,7 @@ import type Rapier from '@dimforge/rapier3d-compat';
 import type { Collider, KinematicCharacterController, RigidBody, World } from '@dimforge/rapier3d-compat';
 import { CAPSULE, MOVEMENT } from '../config/character';
 import { sim } from '../core/sim';
+import { audio } from '../audio/AudioSystem';
 
 const DEG = Math.PI / 180;
 
@@ -32,6 +33,7 @@ export class CharacterController {
   private airTime = 0;
   /** Set on takeoff so a held jump key cannot re-trigger mid-air. */
   private jumpLatched = false;
+  private footstepAccum = 0.5;
 
   private disposed = false;
 
@@ -204,6 +206,19 @@ export class CharacterController {
     p.speed = speed;
     p.grounded = this.grounded;
     p.airTime = this.airTime;
+    
+    // --- footsteps ---
+    if (this.grounded && speed > 0.1) {
+      this.footstepAccum += speed * dt;
+      // Normal step length approximation
+      const stepLength = targetSpeed >= MOVEMENT.sprintSpeed ? 1.8 : targetSpeed <= MOVEMENT.walkSpeed ? 0.9 : 1.4;
+      if (this.footstepAccum >= stepLength) {
+        this.footstepAccum = 0;
+        audio.playFootstepSound();
+      }
+    } else if (!this.grounded || speed < 0.1) {
+      this.footstepAccum = 0.5;
+    }
   }
 }
 

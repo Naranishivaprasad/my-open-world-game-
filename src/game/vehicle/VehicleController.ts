@@ -14,6 +14,7 @@ import {
   WHEEL_AXES,
   type VehicleBuild,
 } from '../config/vehicle';
+import { audio } from '../audio/AudioSystem';
 
 /**
  * Raycast vehicle built on Rapier's DynamicRayCastVehicleController (spec 16).
@@ -54,6 +55,7 @@ export class VehicleController {
   /** Recorded for diagnostics only. */
   private lastBrake = 0;
   private lastEngineForce = 0;
+  private lastForwardSpeed = 0;
 
   readonly wheelStates: WheelState[];
 
@@ -228,6 +230,12 @@ export class VehicleController {
 
     this.updateForwardSpeed();
     this.updateOverturned(dt);
+    
+    const deltaSpeed = Math.abs(this.forwardSpeed - this.lastForwardSpeed);
+    if (deltaSpeed > 5.0) {
+      audio.playCrashSound(Math.min(1.0, deltaSpeed / 20.0));
+    }
+    this.lastForwardSpeed = this.forwardSpeed;
 
     const speedAbs = Math.abs(this.forwardSpeed);
     const { throttle, steer, handbrake } = this.input;

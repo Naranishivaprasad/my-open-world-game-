@@ -6,6 +6,7 @@ import { TRAFFIC } from '../config/traffic';
 import { makeRng, hashSeed, type Rng } from '../core/rng';
 import { sim } from '../core/sim';
 import { POLICE_SPEC } from '../world/vehicleGeometry';
+import { audio } from '../audio/AudioSystem';
 
 /**
  * Police and wanted system (spec 23).
@@ -480,15 +481,17 @@ export class PoliceSystem {
   // ----------------------------------------------------------- arrest
 
   private checkArrest(u: PoliceUnit, dt: number, px: number, pz: number) {
-    const onFoot = sim.controlMode === 'foot';
-    const slow = sim.player.speed < POLICE.arrestSpeed;
+    const slow = sim.controlMode === 'vehicle' 
+      ? Math.abs(sim.vehicle.speedKph) < POLICE.arrestSpeed * 3.6
+      : sim.player.speed < POLICE.arrestSpeed;
     const close = Math.hypot(u.x - px, u.z - pz) < POLICE.arrestRange;
 
-    if (onFoot && slow && close && u.hasSight && this.state === 'pursuing') {
+    if (slow && close && u.hasSight && this.state === 'pursuing') {
       u.arrestFor += dt;
       if (u.arrestFor >= POLICE.arrestHold) {
         this.state = 'busted';
         sim.police.state = 'busted';
+        audio.playBustedSound();
       }
     } else {
       u.arrestFor = 0;

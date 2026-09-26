@@ -95,6 +95,7 @@ export function Pedestrians({
     const system = new PedestrianSystem(world, rapier);
     systemRef.current = system;
     onReady?.(system);
+    sim.pedestrians = system;
     if (DEBUG_HOOKS && typeof window !== 'undefined') {
       const w = window as unknown as { __PALM__?: Record<string, unknown> };
       w.__PALM__ = { ...(w.__PALM__ ?? {}), pedestrians: system };

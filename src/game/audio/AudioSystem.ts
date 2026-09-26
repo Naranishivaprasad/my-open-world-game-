@@ -286,6 +286,89 @@ export class AudioSystem {
     }
   }
 
+  playBustedSound() {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    
+    // A heavy bass drop for "Busted"
+    const osc = this.ctx.createOscillator();
+    osc.type = 'square';
+    
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1000, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 1.5);
+    
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.8, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 1.5);
+    
+    osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 1.5);
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.sfxBus!);
+    
+    osc.start();
+    osc.stop(this.ctx.currentTime + 2.0);
+  }
+
+  playCrashSound(intensity: number) {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(40 + Math.random() * 40, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 0.5);
+
+    const noiseNode = this.ctx.createBufferSource();
+    noiseNode.buffer = this.tyreNoise?.buffer || null;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1000 + intensity * 2000, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.5);
+
+    const gain = this.ctx.createGain();
+    const peak = Math.min(1.0, intensity * 0.5);
+    gain.gain.setValueAtTime(peak, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+
+    osc.connect(filter);
+    if (noiseNode.buffer) {
+      noiseNode.connect(filter);
+      noiseNode.start();
+      noiseNode.stop(this.ctx.currentTime + 0.5);
+    }
+    filter.connect(gain);
+    gain.connect(this.sfxBus!);
+
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.5);
+  }
+
+  playFootstepSound() {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    const noiseNode = this.ctx.createBufferSource();
+    noiseNode.buffer = this.tyreNoise?.buffer || null;
+    if (!noiseNode.buffer) return;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(800 + Math.random() * 200, this.ctx.currentTime);
+    filter.Q.value = 1.0;
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+
+    noiseNode.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.sfxBus!);
+
+    noiseNode.start();
+    noiseNode.stop(this.ctx.currentTime + 0.1);
+  }
+
   dispose() {
     this.disposed = true;
     for (const v of this.engineVoices) {

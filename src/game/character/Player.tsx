@@ -13,6 +13,7 @@ import { CHARACTER_MODEL } from '../config/character';
 import { useGame } from '../core/store';
 import { PLAYER_SPAWN } from '../config/world';
 import { DEBUG_HOOKS, sim } from '../core/sim';
+import { Weapon } from '../Weapon';
 
 /**
  * The player character: physics capsule, animated mesh, and the bridge between
@@ -47,7 +48,11 @@ export function Player({
     // Clothed rather than left as the bare two-tone dummy (spec 12).
     const dispose = dressCharacter(root, PLAYER_OUTFIT);
 
+    let rightHand: THREE.Object3D | null = null;
     root.traverse((obj) => {
+      if (obj.name === 'HandR' || obj.name === 'RightHand' || obj.name.includes('Hand_R') || obj.name === 'mixamorigRightHand') {
+        rightHand = obj;
+      }
       const mesh = obj as THREE.SkinnedMesh;
       if (!mesh.isMesh) return;
       // The capsule already handles collision; never let the mesh be culled
@@ -55,7 +60,7 @@ export function Player({
       mesh.frustumCulled = false;
     });
 
-    return { root, dispose };
+    return { root, dispose, rightHand };
   }, [gltf.scene]);
 
   useEffect(() => () => model.dispose(), [model]);
@@ -131,6 +136,7 @@ export function Player({
   return (
     <group ref={groupRef} name="player" visible={!hidden}>
       <primitive object={model.root} />
+      {model.rightHand && <Weapon parentBone={model.rightHand} />}
     </group>
   );
 }

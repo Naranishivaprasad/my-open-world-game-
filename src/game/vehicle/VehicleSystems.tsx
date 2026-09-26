@@ -143,6 +143,10 @@ export function VehicleSystems({
       }
     }
 
+    if (sim.police.state === 'busted' && driving) {
+      vi.forceExit();
+    }
+
     if (driving) {
       if (sim.input.cameraTogglePressed) {
         const next = useGame.getState().cameraMode === 'tp-vehicle' ? 'fp-vehicle' : 'tp-vehicle';
@@ -176,7 +180,9 @@ export function VehicleSystems({
     sim.vehicle.steer = vehicle.steer;
     sim.vehicle.engineOn = vehicle.isEngineOn;
     sim.vehicle.overturned = vehicle.isOverturned;
-    sim.vehicle.slipping = vehicle.wheelStates.some((w) => !w.grounded) && Math.abs(vehicle.speed) > 4;
+    sim.vehicle.slipping = 
+      (vehicle.wheelStates.some((w) => !w.grounded) && Math.abs(vehicle.speed) > 4) ||
+      (sim.input.handbrake && Math.abs(vehicle.speed) > 2);
 
     // ---------------------------------------------- contextual prompt (spec 14)
     const b = input.getBindings();

@@ -91,6 +91,8 @@ export interface CityBuild {
   vegetation: {
     palm: PropInstance[];
     shrub: PropInstance[];
+    pine: PropInstance[];
+    grass: PropInstance[];
   };
   stats: {
     triangles: number;
@@ -195,7 +197,7 @@ export function buildCity(seed = hashSeed('palm-coast-v1')): CityBuild {
       (Object.keys(VEHICLE_TYPES) as VehicleKey[]).map((k) => [k, [] as PropInstance[]]),
     ) as Record<VehicleKey, PropInstance[]>,
   };
-  const vegetation: CityBuild['vegetation'] = { palm: [], shrub: [] };
+  const vegetation: CityBuild['vegetation'] = { palm: [], shrub: [], pine: [], grass: [] };
   /** Driveway slots collected during the frontage pass. */
   const parkedDriveway: { x: number; z: number; alongZ: boolean }[] = [];
   let buildingCount = 0;
@@ -1446,13 +1448,21 @@ function addStreetFurniture(
       const side = chance(rng, 0.5) ? 1 : -1;
       const px = horiz ? t + randRange(rng, -2, 2) : fixed + side * (outer - 1.5);
       const pz = horiz ? fixed + side * (outer - 1.5) : t + randRange(rng, -2, 2);
-      vegetation.palm.push({
+      const r = rng();
+      const instance = {
         x: px,
         y: 0,
         z: pz,
         rotY: randRange(rng, 0, Math.PI * 2),
         scale: randRange(rng, 0.8, 1.35),
-      });
+      };
+      if (r < 0.4) {
+        vegetation.palm.push(instance);
+      } else if (r < 0.7) {
+        vegetation.pine.push(instance);
+      } else {
+        vegetation.grass.push({...instance, scale: randRange(rng, 1.2, 2.0)});
+      }
     }
 
     /*

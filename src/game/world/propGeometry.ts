@@ -239,6 +239,67 @@ function addFrond(
   }
 }
 
+/** Procedural pine tree for variety. */
+export function makePineTreeGeometry(seed = 12): THREE.BufferGeometry {
+  const mb = new MeshBuilder({ vertexColors: true });
+  const rng = makeRng(seed);
+  const TRUNK = '#5e4f3e';
+  const H = 7.5;
+  const SEGS = 5;
+  
+  let px = 0;
+  let pz = 0;
+  const leanX = randRange(rng, -0.1, 0.1);
+  for (let i = 0; i < SEGS; i++) {
+    const y0 = (i / SEGS) * H;
+    const y1 = ((i + 1) / SEGS) * H;
+    const r0 = 0.25 - (i / SEGS) * 0.15;
+    const r1 = 0.25 - ((i + 1) / SEGS) * 0.15;
+    const nx = leanX * y1;
+    const nz = leanX * 0.5 * y1;
+    addColumnBetween(mb, px, pz, nx, nz, y0, y1, r0, r1, 6, TRUNK);
+    px = nx;
+    pz = nz;
+  }
+  
+  // Pine needles layers
+  const LAYERS = 4;
+  for(let i=1; i<=LAYERS; i++) {
+    const h0 = H * (i / (LAYERS+1.5));
+    const h1 = h0 + 2.5;
+    const r = 2.0 - (i * 0.3);
+    const color = i % 2 === 0 ? '#2e4a27' : '#385731';
+    addColumnBetween(mb, px * (i/LAYERS), pz * (i/LAYERS), px, pz, h0, h1, r, 0.1, 8, color);
+  }
+  return mb.build();
+}
+
+/** Procedural grass patch. */
+export function makeGrassGeometry(seed = 99): THREE.BufferGeometry {
+  const mb = new MeshBuilder({ vertexColors: true });
+  const rng = makeRng(seed);
+  const BLADES = 12;
+  const GREENS = ['#548737', '#4b7532', '#619c41'];
+  
+  for(let i=0; i<BLADES; i++) {
+     const ox = randRange(rng, -0.3, 0.3);
+     const oz = randRange(rng, -0.3, 0.3);
+     const h = randRange(rng, 0.2, 0.4);
+     const leanX = randRange(rng, -0.15, 0.15);
+     const leanZ = randRange(rng, -0.15, 0.15);
+     
+     mb.addQuad(
+       {x: ox - 0.02, y: 0, z: oz},
+       {x: ox + 0.02, y: 0, z: oz},
+       {x: ox + leanX, y: h, z: oz + leanZ},
+       {x: ox - 0.02 + leanX, y: h, z: oz + leanZ},
+       1.5,
+       GREENS[i % 3]
+     );
+  }
+  return mb.build();
+}
+
 /** Low ornamental shrub - a cluster of overlapping leafy blocks. */
 export function makeShrubGeometry(seed = 3): THREE.BufferGeometry {
   const mb = new MeshBuilder({ vertexColors: true });

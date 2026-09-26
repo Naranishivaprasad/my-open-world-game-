@@ -16,6 +16,8 @@ import {
   makeConeGeometry,
   makeHydrantGeometry,
   makePalmGeometry,
+  makePineTreeGeometry,
+  makeGrassGeometry,
   makeShrubGeometry,
   makeStreetlightGeometry,
   makeUtilityPoleGeometry,
@@ -421,7 +423,12 @@ function ParkedVehicles({ quality }: { quality: QualitySettings }) {
 }
 
 function Vegetation({ city, quality }: { city: CityBuild; quality: QualitySettings }) {
-  const geos = useMemo(() => ({ palm: makePalmGeometry(), shrub: makeShrubGeometry() }), []);
+  const geos = useMemo(() => ({
+    palm: makePalmGeometry(),
+    pine: makePineTreeGeometry(),
+    grass: makeGrassGeometry(),
+    shrub: makeShrubGeometry(),
+  }), []);
   useEffect(() => {
     const list = Object.values(geos);
     return () => list.forEach((g) => g.dispose());
@@ -463,6 +470,14 @@ function Vegetation({ city, quality }: { city: CityBuild; quality: QualitySettin
     () => city.vegetation.palm.filter((_, i) => i % 100 < density * 100),
     [city, density],
   );
+  const pines = useMemo(
+    () => city.vegetation.pine.filter((_, i) => i % 100 < density * 100),
+    [city, density],
+  );
+  const grasses = useMemo(
+    () => city.vegetation.grass.filter((_, i) => i % 100 < density * 100),
+    [city, density],
+  );
   const shrubs = useMemo(
     () => city.vegetation.shrub.filter((_, i) => i % 100 < density * 100),
     [city, density],
@@ -471,6 +486,8 @@ function Vegetation({ city, quality }: { city: CityBuild; quality: QualitySettin
   return (
     <group name="vegetation">
       <InstancedProp geometry={geos.palm} material={material} instances={palms} castShadow={quality.shadowsEnabled} />
+      <InstancedProp geometry={geos.pine} material={material} instances={pines} castShadow={quality.shadowsEnabled} />
+      <InstancedProp geometry={geos.grass} material={material} instances={grasses} castShadow={false} />
       <InstancedProp geometry={geos.shrub} material={material} instances={shrubs} castShadow={false} />
     </group>
   );
