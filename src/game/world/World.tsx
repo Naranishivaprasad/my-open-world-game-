@@ -138,6 +138,70 @@ export function World({
       <Vegetation city={city} quality={quality} />
       <Buildings city={city} quality={quality} />
       <MilkTrucks city={city} />
+      <ActiveStreetlights city={city} />
+    </group>
+  );
+}
+
+/**
+ * Illuminates the nearest streetlights at night by snapping a small pool of point lights 
+ * to their real-world lamp head positions.
+ */
+function ActiveStreetlights({ city }: { city: CityData }) {
+  const maxLights = 8;
+  const lights = useRef<(THREE.PointLight | null)[]>(new Array(maxLights).fill(null));
+
+  useFrame(() => {
+    const isDark = sim.time.darkness > 0.4;
+    
+    if (!isDark) {
+      for (let i = 0; i < maxLights; i++) {
+        const l = lights.current[i];
+        if (l) l.visible = false;
+      }
+      return;
+    }
+
+    const p = sim.controlMode === 'vehicle' ? sim.vehicle.position : sim.player.position;
+    
+    // Sort all streetlights by distance to player
+    const nearest = [...city.props.streetlight].sort((a, b) => {
+      return Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z);
+    }).slice(0, maxLights);
+
+    for (let i = 0; i < maxLights; i++) {
+      const l = lights.current[i];
+      if (!l) continue;
+      
+      if (i < nearest.length) {
+        const sl = nearest[i]!;
+        // The lamp head is 7.16m high and extended out 2.5m along local +X
+        const rotY = sl.rotY ?? 0;
+        const lx = sl.x + Math.cos(rotY) * 2.5;
+        const lz = sl.z - Math.sin(rotY) * 2.5;
+        
+        l.position.set(lx, sl.y + 7.16, lz);
+        l.visible = true;
+      } else {
+        l.visible = false;
+      }
+    }
+  });
+
+  return (
+    <group name="active-streetlights">
+      {Array.from({ length: maxLights }).map((_, i) => (
+        <pointLight
+          key={i}
+          ref={(el) => (lights.current[i] = el)}
+          color="#f3ecd8"
+          intensity={15}
+          distance={25}
+          decay={2}
+          visible={false}
+          castShadow={false}
+        />
+      ))}
     </group>
   );
 }

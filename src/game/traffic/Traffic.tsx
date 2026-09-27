@@ -27,6 +27,9 @@ export function Traffic({
   const systemRef = useRef<TrafficSystem | null>(null);
   /** One mesh per body class; agents are bucketed into them each frame. */
   const meshRefs = useRef<Partial<Record<VehicleKey, THREE.InstancedMesh | null>>>({});
+  const max = quality.trafficCount + 4;
+  const lightRefs = useRef<(THREE.SpotLight | null)[]>(new Array(max).fill(null));
+  const targetRefs = useRef<(THREE.Object3D | null)[]>(new Array(max).fill(null));
 
   const geos = useMemo(() => {
     const out = {} as Record<VehicleKey, THREE.BufferGeometry>;
@@ -109,6 +112,43 @@ export function Traffic({
     }
 
     sim.stats.trafficCount = agents.length;
+    
+    // Update traffic headlights
+    const isDark = sim.time.darkness > 0.4;
+    for (let i = 0; i < max; i++) {
+      const light = lightRefs.current[i];
+      const target = targetRefs.current[i];
+      if (!light || !target) continue;
+      
+      if (i < count && isDark) {
+        const a = agents[i]!;
+        const t = a.body.translation();
+        const r = a.body.rotation();
+        
+        // Calculate front of car and forward direction
+        const yOffset = 0.5; // Height of headlights
+        const frontOffset = 2.0; // Distance to front bumper
+        
+        // Rotate (0, 0, -1) by body rotation to get forward vector
+        QUAT.set(r.x, r.y, r.z, r.w);
+        const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(QUAT);
+        
+        light.position.set(
+          t.x + forward.x * frontOffset, 
+          t.y + yOffset, 
+          t.z + forward.z * frontOffset
+        );
+        target.position.set(
+          t.x + forward.x * (frontOffset + 10), 
+          t.y, 
+          t.z + forward.z * (frontOffset + 10)
+        );
+        
+        light.visible = true;
+      } else {
+        light.visible = false;
+      }
+    }
   });
 
   const max = quality.trafficCount + 4;
@@ -126,6 +166,21 @@ export function Traffic({
           receiveShadow
           frustumCulled={false}
         />
+      ))}
+      
+      {Array.from({ length: max }).map((_, i) => (
+        <group key={`light-${i}`}>
+          <spotLight
+            ref={(el) => (lightRefs.current[i] = el)}
+            angle={0.6}
+            penumbra={0.5}
+            intensity={40}
+            distance={40}
+            target={targetRefs.current[i] || undefined}
+            visible={false}
+          />
+          <object3D ref={(el) => (targetRefs.current[i] = el)} />
+        </group>
       ))}
     </group>
   );
