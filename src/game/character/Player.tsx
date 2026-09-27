@@ -50,7 +50,8 @@ export function Player({
 
     let rightHand: THREE.Object3D | null = null;
     root.traverse((obj) => {
-      if (obj.name === 'HandR' || obj.name === 'RightHand' || obj.name.includes('Hand_R') || obj.name === 'mixamorigRightHand') {
+      const name = obj.name.toLowerCase();
+      if ((name.includes('hand') && (name.includes('_r') || name.endsWith('r') || name.startsWith('r'))) || name === 'mixamorigrighthand') {
         rightHand = obj;
       }
       const mesh = obj as THREE.SkinnedMesh;

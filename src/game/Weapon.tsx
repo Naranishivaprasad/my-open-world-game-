@@ -46,7 +46,7 @@ export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
 
   // Use createPortal to attach the weapon directly to the bone in the scene graph
   return createPortal(
-    <mesh geometry={geometry} position={[0, 0.15, 0.05]} rotation={[Math.PI / 2, Math.PI, 0]}>
+    <mesh geometry={geometry} position={[0, 0.15, 0.05]} rotation={[Math.PI / 2, Math.PI, 0]} scale={2}>
       <meshStandardMaterial vertexColors={true} roughness={0.7} metalness={0.5} />
     </mesh>,
     parentBone

@@ -211,7 +211,19 @@ function updateFoot(
   cam.pitch = THREE.MathUtils.clamp(cam.pitch + lookY, PITCH_MIN, PITCH_MAX);
 
   const p = sim.player.position;
-  const desiredTarget = TMP_A.set(p.x, p.y + FOOT_TARGET_HEIGHT, p.z);
+  
+  const sideX = Math.cos(cam.yaw);
+  const sideZ = -Math.sin(cam.yaw);
+  
+  // Shift the target to the right and up when aiming
+  const isAiming = sim.input.aimHeld;
+  const targetOffset = isAiming ? 0.6 : 0;
+  
+  const desiredTarget = TMP_A.set(
+    p.x + sideX * targetOffset, 
+    p.y + FOOT_TARGET_HEIGHT + (isAiming ? 0.2 : 0), 
+    p.z + sideZ * targetOffset
+  );
 
   if (!initialised.current) {
     smoothedTarget.current.copy(desiredTarget);
@@ -225,12 +237,10 @@ function updateFoot(
   const cp = Math.cos(cam.pitch);
   const dir = TMP_B.set(Math.sin(cam.yaw) * cp, Math.sin(cam.pitch), Math.cos(cam.yaw) * cp);
 
-  const sideX = Math.cos(cam.yaw);
-  const sideZ = -Math.sin(cam.yaw);
   const origin = TMP_C.set(
-    target.x + sideX * FOOT_SHOULDER,
+    target.x + sideX * (FOOT_SHOULDER + (isAiming ? 0.2 : 0)),
     target.y,
-    target.z + sideZ * FOOT_SHOULDER,
+    target.z + sideZ * (FOOT_SHOULDER + (isAiming ? 0.2 : 0)),
   );
 
   const allowed = castBoom(origin, dir, cam.distance);
