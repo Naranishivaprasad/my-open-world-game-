@@ -365,34 +365,61 @@ export class AudioSystem {
 
   playGunshotSound() {
     if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
-    const osc = this.ctx.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 0.3);
-
+    
+    // Noise blast
     const noiseNode = this.ctx.createBufferSource();
     noiseNode.buffer = this.tyreNoise?.buffer || null;
-
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(5000, this.ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.3);
-
+    
+    const noiseFilter = this.ctx.createBiquadFilter();
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.setValueAtTime(8000, this.ctx.currentTime);
+    noiseFilter.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.15);
+    
+    const noiseGain = this.ctx.createGain();
+    noiseGain.gain.setValueAtTime(1.5, this.ctx.currentTime);
+    noiseGain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+    
+    if (noiseNode.buffer) {
+      noiseNode.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(this.sfxBus!);
+      noiseNode.start();
+      noiseNode.stop(this.ctx.currentTime + 0.15);
+    }
+    
+    // Punch body
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.1);
+    
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(1.0, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-
-    osc.connect(filter);
-    if (noiseNode.buffer) {
-      noiseNode.connect(filter);
-      noiseNode.start();
-      noiseNode.stop(this.ctx.currentTime + 0.3);
-    }
-    filter.connect(gain);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+    
+    osc.connect(gain);
     gain.connect(this.sfxBus!);
-
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.3);
+    osc.stop(this.ctx.currentTime + 0.1);
+  }
+
+  playKillSound() {
+    if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    
+    // High pitched hitmarker sound
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.1);
+    
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+    
+    osc.connect(gain);
+    gain.connect(this.sfxBus!);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.1);
   }
 
   playFootstepSound(isSprinting = false) {

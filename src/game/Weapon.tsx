@@ -4,8 +4,8 @@ import { MeshBuilder } from './world/meshBuilder';
 
 export function makeGunGeometry() {
   const mb = new MeshBuilder({ vertexColors: true });
-  const GUNMETAL = '#ff0000'; // BRIGHT RED FOR DEBUGGING
-  const BLACK = '#ff0000';    // BRIGHT RED FOR DEBUGGING
+  const GUNMETAL = '#2a2e33';
+  const BLACK = '#111111';
   
   // Uzi-style SMG
   // Main Receiver Body
@@ -46,7 +46,7 @@ export function Weapon({ parentBone }: { parentBone: THREE.Object3D }) {
 
   // Use createPortal to attach the weapon directly to the bone in the scene graph
   return createPortal(
-    <mesh geometry={geometry} position={[0, 0.3, 0.1]} rotation={[Math.PI / 2, Math.PI, 0]} scale={3}>
+    <mesh geometry={geometry} position={[0, 0.15, 0.05]} rotation={[Math.PI / 2, Math.PI, 0]} scale={1.2}>
       <meshStandardMaterial vertexColors={true} roughness={0.7} metalness={0.5} />
     </mesh>,
     parentBone

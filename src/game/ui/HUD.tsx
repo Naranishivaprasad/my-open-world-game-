@@ -71,7 +71,7 @@ function useSimSample<T>(read: () => T, hz = 10): T {
     <div className="hud">
       {/* Version Indicator */}
       <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(255,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold', zIndex: 9999 }}>
-        VERSION: 3 (Aim Fix + Gun Added)
+        VERSION: 4 (Final Combat Polish)
       </div>
 
       {/* Crosshair */}
