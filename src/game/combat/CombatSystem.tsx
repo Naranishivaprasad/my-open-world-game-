@@ -66,7 +66,8 @@ export function CombatSystem() {
         
         if (!hitPed) {
           // Hit the ground or wall
-          VisualEffects.addBulletImpact(pointV3, ray.pointAt((hit as any).toi - 0.05));
+          const offset = ray.pointAt((hit as any).toi - 0.05);
+          VisualEffects.addBulletImpact(pointV3, new THREE.Vector3(offset.x, offset.y, offset.z));
         }
       }
     }
