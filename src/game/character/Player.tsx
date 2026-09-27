@@ -49,10 +49,18 @@ export function Player({
     const dispose = dressCharacter(root, PLAYER_OUTFIT);
 
     let rightHand: THREE.Object3D | null = null;
+    let rightArm: THREE.Object3D | null = null;
+    let spine: THREE.Object3D | null = null;
     root.traverse((obj) => {
       const name = obj.name.toLowerCase();
       if ((name.includes('hand') && (name.includes('_r') || name.endsWith('r') || name.startsWith('r'))) || name === 'mixamorigrighthand') {
         rightHand = obj;
+      }
+      if ((name.includes('arm') && (name.includes('_r') || name.endsWith('r') || name.startsWith('r'))) || name === 'mixamorigrightarm') {
+        rightArm = obj;
+      }
+      if (name === 'mixamorigspine' || name === 'spine' || name === 'mixamorigspine1') {
+        spine = obj;
       }
       const mesh = obj as THREE.SkinnedMesh;
       if (!mesh.isMesh) return;
@@ -66,7 +74,7 @@ export function Player({
       rightHand = root;
     }
 
-    return { root, dispose, rightHand };
+    return { root, dispose, rightHand, rightArm, spine };
   }, [gltf.scene]);
 
   useEffect(() => () => model.dispose(), [model]);
@@ -130,6 +138,22 @@ export function Player({
     
     const sitOffset = isSitting ? 0 : 0; // Removed Math.PI rotation offset
     g.rotation.y = sim.player.heading + CHARACTER_MODEL.yawOffset + sitOffset;
+    
+    // Procedural Aiming Pose
+    if (sim.input.aimHeld && sim.controlMode === 'foot') {
+      if (model.rightArm) {
+        // Raise the arm
+        model.rightArm.rotation.z = Math.PI / 2.5; 
+        model.rightArm.rotation.x = Math.PI / 8;
+      }
+      if (model.spine) {
+        // Twist the torso to point right shoulder forward
+        model.spine.rotation.y = Math.PI / 4;
+      }
+    } else {
+      // Allow animation to take back control
+      // Actually, since animator runs before this, not overriding it lets the animator's state persist correctly.
+    }
   });
 
   /*

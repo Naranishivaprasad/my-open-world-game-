@@ -73,6 +73,7 @@ export class CharacterController {
 
     sim.player.position.set(spawn.x, spawn.y, spawn.z);
     sim.player.heading = spawn.heading;
+    sim.player.colliderHandle = this.collider.handle;
   }
 
   dispose() {

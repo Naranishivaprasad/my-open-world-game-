@@ -41,7 +41,19 @@ export function CombatSystem() {
       audio.playGunshotSound();
 
       const ray = new rapier.Ray(origin, direction);
-      const hit = world.castRay(ray, 100, true, rapier.QueryFilterFlags.EXCLUDE_SENSORS);
+      let playerCollider;
+      if (sim.player.colliderHandle !== null) {
+        playerCollider = world.getCollider(sim.player.colliderHandle);
+      }
+      
+      const hit = world.castRay(
+        ray, 
+        100, 
+        true, 
+        rapier.QueryFilterFlags.EXCLUDE_SENSORS, 
+        undefined, 
+        playerCollider
+      );
 
       if (hit) {
         const point = ray.pointAt((hit as any).toi);
