@@ -172,7 +172,7 @@ function GasStationLights() {
  * Illuminates the nearest streetlights at night by snapping a small pool of point lights 
  * to their real-world lamp head positions.
  */
-function ActiveStreetlights({ city }: { city: CityData }) {
+function ActiveStreetlights({ city }: { city: CityBuild }) {
   const maxLights = 8;
   const lights = useRef<(THREE.PointLight | null)[]>(new Array(maxLights).fill(null));
 
