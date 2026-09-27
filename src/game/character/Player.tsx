@@ -61,6 +61,11 @@ export function Player({
       mesh.frustumCulled = false;
     });
 
+    if (!rightHand) {
+      console.warn("Could not find right hand bone! Attaching weapon to root instead.");
+      rightHand = root;
+    }
+
     return { root, dispose, rightHand };
   }, [gltf.scene]);
 

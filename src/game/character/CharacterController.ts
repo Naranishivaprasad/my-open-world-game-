@@ -199,7 +199,7 @@ export class CharacterController {
     // --- turn the mesh toward travel direction or camera (when aiming) ---
     const speed = Math.hypot(actualVX, actualVZ);
     if (input.aimHeld) {
-      const aimHeading = Math.atan2(fx, fz);
+      const aimHeading = Math.atan2(-fx, -fz);
       sim.player.heading = turnToward(sim.player.heading, aimHeading, MOVEMENT.turnRate * dt * 2);
     } else if (hasInput && speed > 0.15) {
       const targetHeading = Math.atan2(dirX, dirZ);
