@@ -151,8 +151,6 @@ export function Traffic({
     }
   });
 
-  const max = quality.trafficCount + 4;
-
   return (
     <group name="traffic">
       {VEHICLE_KEYS.map((key) => (

@@ -139,6 +139,31 @@ export function World({
       <Buildings city={city} quality={quality} />
       <MilkTrucks city={city} />
       <ActiveStreetlights city={city} />
+      <GasStationLights />
+    </group>
+  );
+}
+
+/**
+ * Illuminates the Sunfuel gas station canopy at night.
+ */
+function GasStationLights() {
+  const lights = useRef<THREE.Group>(null);
+  
+  useFrame(() => {
+    if (lights.current) {
+      lights.current.visible = sim.time.darkness > 0.4;
+    }
+  });
+
+  const cx = 134;
+  const cz = -52;
+  const y = 5.2;
+
+  return (
+    <group ref={lights} visible={false} name="gas-station-lights">
+      <pointLight position={[cx - 10, y, cz]} color="#f3ecd8" intensity={40} distance={40} decay={2} castShadow={false} />
+      <pointLight position={[cx + 10, y, cz]} color="#f3ecd8" intensity={40} distance={40} decay={2} castShadow={false} />
     </group>
   );
 }
