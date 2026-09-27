@@ -45,7 +45,19 @@ export function WeatherSystem() {
     autumn: new THREE.Color(0xc98e4f), // Orange tint
   }), []);
 
+  const seasonTimer = useRef(0);
+  const seasons: ('sunny'|'rainy'|'snowy'|'autumn')[] = ['sunny', 'rainy', 'snowy', 'autumn'];
+
   useFrame((_, delta) => {
+    seasonTimer.current += delta;
+    if (seasonTimer.current > 30) {
+      seasonTimer.current = 0;
+      const randomSeason = seasons[Math.floor(Math.random() * seasons.length)];
+      if (randomSeason) {
+        sim.season = randomSeason;
+      }
+    }
+
     const season = sim.season;
     
     // Update Sky/Fog color

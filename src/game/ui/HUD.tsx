@@ -67,25 +67,8 @@ function useSimSample<T>(read: () => T, hz = 10): T {
     8,
   );
 
-  const setSeason = (s: 'sunny' | 'rainy' | 'snowy' | 'autumn') => {
-    sim.season = s;
-    // Force a React re-render by doing nothing via Zustand (or just rely on the next frame)
-  };
-
   return (
     <div className="hud">
-      {/* Version Indicator & Controls */}
-      <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <div style={{ background: 'rgba(255,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold' }}>
-          VERSION: 9 (Build Fix + Physics + Animations)
-        </div>
-        <div style={{ display: 'flex', gap: '4px', background: 'rgba(0,0,0,0.5)', padding: '4px', borderRadius: '4px' }}>
-          <button style={{ cursor: 'pointer', padding: '2px 6px', fontSize: '12px' }} onClick={() => setSeason('sunny')}>Sunny</button>
-          <button style={{ cursor: 'pointer', padding: '2px 6px', fontSize: '12px' }} onClick={() => setSeason('rainy')}>Rainy</button>
-          <button style={{ cursor: 'pointer', padding: '2px 6px', fontSize: '12px' }} onClick={() => setSeason('snowy')}>Snowy</button>
-          <button style={{ cursor: 'pointer', padding: '2px 6px', fontSize: '12px' }} onClick={() => setSeason('autumn')}>Autumn</button>
-        </div>
-      </div>
 
       {/* Crosshair */}
       {aimHeld && sim.controlMode === 'foot' && (
