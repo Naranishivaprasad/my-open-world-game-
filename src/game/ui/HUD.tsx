@@ -161,6 +161,42 @@ export function HUD() {
         </div>
       )}
 
+      {police.state === 'busted' && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 100,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: '"Impact", "Arial Black", sans-serif',
+              fontSize: '12vw',
+              color: '#d32f2f',
+              textShadow: '0 0 10px #000, 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              transform: 'scale(1)',
+              animation: 'busted-slam 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            }}
+          >
+            Busted
+          </div>
+          <style>{`
+            @keyframes busted-slam {
+              0% { transform: scale(5); opacity: 0; }
+              100% { transform: scale(1); opacity: 1; }
+            }
+          `}</style>
+        </div>
+      )}
+
       {(prompt || mission.promptLabel) && (
         <div className="hud__prompt">
           {!input.hasTouch && <span className="keycap">{mission.promptKey ?? prompt?.key}</span>}

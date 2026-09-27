@@ -218,7 +218,8 @@ export class CharacterController {
       const stepLength = targetSpeed >= MOVEMENT.sprintSpeed ? 1.8 : targetSpeed <= MOVEMENT.walkSpeed ? 0.9 : 1.4;
       if (this.footstepAccum >= stepLength) {
         this.footstepAccum = 0;
-        audio.playFootstepSound();
+        const isSprinting = targetSpeed >= MOVEMENT.sprintSpeed;
+        audio.playFootstepSound(isSprinting);
       }
     } else if (!this.grounded || speed < 0.1) {
       this.footstepAccum = 0.5;

@@ -163,29 +163,33 @@ export class AudioSystem {
     this.tyreGain.connect(this.sfxBus);
     this.tyreNoise.start();
 
-    // ---- siren: a single tone whose pitch is swept into a two-tone wail ----
+    // ---- siren: a fast high-low alternating European-style siren ----
     this.sirenGain = ctx.createGain();
     this.sirenGain.gain.value = 0;
     this.sirenGain.connect(this.sfxBus);
     this.sirenOsc = ctx.createOscillator();
-    this.sirenOsc.type = 'triangle';
-    this.sirenOsc.frequency.value = 700;
+    this.sirenOsc.type = 'square';
+    this.sirenOsc.frequency.value = 800; // Will be toggled between 800 and 1100
+    const sirenFilter = ctx.createBiquadFilter();
+    sirenFilter.type = 'lowpass';
+    sirenFilter.frequency.value = 1500;
     const sirenShape = ctx.createGain();
-    sirenShape.gain.value = 0.22;
-    this.sirenOsc.connect(sirenShape);
+    sirenShape.gain.value = 0.15;
+    this.sirenOsc.connect(sirenFilter);
+    sirenFilter.connect(sirenShape);
     sirenShape.connect(this.sirenGain);
     this.sirenOsc.start();
 
-    // ---- horn: two detuned squares, a real car's dual-tone ----
+    // ---- horn: a lower, meatier triple-tone chord ----
     this.hornGain = ctx.createGain();
     this.hornGain.gain.value = 0;
     this.hornGain.connect(this.sfxBus);
-    for (const f of [420, 508]) {
+    for (const f of [311, 370, 415]) { // D#4, F#4, G#4
       const osc = ctx.createOscillator();
-      osc.type = 'square';
+      osc.type = 'sawtooth';
       osc.frequency.value = f;
       const g = ctx.createGain();
-      g.gain.value = 0.16;
+      g.gain.value = 0.1;
       osc.connect(g);
       g.connect(this.hornGain);
       osc.start();
@@ -266,9 +270,10 @@ export class AudioSystem {
         level *= THREE_CLAMP(1 - near / 220, 0.15, 1);
       }
 
-      this.sirenPhase += AUDIO_UPDATE_INTERVAL * (p.state === 'pursuing' ? 1.5 : 1.0);
-      const wail = Math.sin(this.sirenPhase * Math.PI * 2) * 0.5 + 0.5;
-      this.sirenOsc.frequency.setTargetAtTime(640 + wail * 420, now, 0.08);
+      this.sirenPhase += AUDIO_UPDATE_INTERVAL * (p.state === 'pursuing' ? 3.0 : 2.0);
+      // High-low alternating siren: switch frequency every half cycle
+      const wail = this.sirenPhase % 1.0 > 0.5 ? 1100 : 800;
+      this.sirenOsc.frequency.setTargetAtTime(wail, now, 0.01);
 
       if (changed(last.siren, level, 0.01)) {
         last.siren = level;
@@ -378,19 +383,20 @@ export class AudioSystem {
     osc.stop(this.ctx.currentTime + 0.3);
   }
 
-  playFootstepSound() {
+  playFootstepSound(isSprinting = false) {
     if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
     const noiseNode = this.ctx.createBufferSource();
     noiseNode.buffer = this.tyreNoise?.buffer || null;
     if (!noiseNode.buffer) return;
 
     const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(800 + Math.random() * 200, this.ctx.currentTime);
-    filter.Q.value = 1.0;
+    filter.type = 'lowpass';
+    // Sprinting has a sharper, higher frequency footstep impact
+    filter.frequency.setValueAtTime(isSprinting ? 2200 : 1200, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.1);
 
     const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+    gain.gain.setValueAtTime(isSprinting ? 0.35 : 0.2, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
 
     noiseNode.connect(filter);
@@ -403,16 +409,23 @@ export class AudioSystem {
 
   playJumpSound() {
     if (!this.ctx || !this.started || this.ctx.state !== 'running') return;
+    // Anime-style energetic jump sound
     const osc = this.ctx.createOscillator();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(200, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(400, this.ctx.currentTime + 0.1);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.15);
+    
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(2000, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.15);
     
     const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
     
-    osc.connect(gain);
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(this.sfxBus!);
     osc.start();
     osc.stop(this.ctx.currentTime + 0.2);

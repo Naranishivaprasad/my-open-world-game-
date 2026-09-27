@@ -1473,7 +1473,7 @@ function addStreetFurniture(
       const r = rng();
       const instance = {
         x: px,
-        y: 0,
+        y: 0.15,
         z: pz,
         rotY: randRange(rng, 0, Math.PI * 2),
         scale: randRange(rng, 0.8, 1.35),
@@ -1501,9 +1501,9 @@ function addStreetFurniture(
       const px = horiz ? t : fixed + side * (outer - 1.2);
       const pz = horiz ? fixed + side * (outer - 1.2) : t;
       const roll = rng();
-      if (roll < 0.4) props.bin.push({ x: px, y: 0, z: pz, rotY: randRange(rng, 0, 6.28), scale: 1 });
-      else if (roll < 0.7) props.bench.push({ x: px, y: 0, z: pz, rotY: horiz ? 0 : Math.PI / 2, scale: 1 });
-      else props.hydrant.push({ x: px, y: 0, z: pz, rotY: randRange(rng, 0, 6.28), scale: 1 });
+      if (roll < 0.4) props.bin.push({ x: px, y: 0.15, z: pz, rotY: randRange(rng, 0, 6.28), scale: 1 });
+      else if (roll < 0.7) props.bench.push({ x: px, y: 0.15, z: pz, rotY: horiz ? 0 : Math.PI / 2, scale: 1 });
+      else props.hydrant.push({ x: px, y: 0.15, z: pz, rotY: randRange(rng, 0, 6.28), scale: 1 });
     }
   }
 
