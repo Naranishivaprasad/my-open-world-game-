@@ -67,6 +67,14 @@ function useSimSample<T>(read: () => T, hz = 10): T {
     8,
   );
 
+  const { health, stamina } = useSimSample(
+    () => ({
+      health: sim.player.health,
+      stamina: sim.player.stamina,
+    }),
+    4
+  );
+
   const setSeason = (s: 'sunny' | 'rainy' | 'snowy' | 'autumn') => {
     sim.season = s;
     // Force a React re-render by doing nothing via Zustand (or just rely on the next frame)
@@ -77,7 +85,7 @@ function useSimSample<T>(read: () => T, hz = 10): T {
       {/* Version Indicator & Controls */}
       <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <div style={{ background: 'rgba(255,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold' }}>
-          VERSION: 6 (Seasons, Waves, Drowning)
+          VERSION: 7 (Health + Stamina Bars)
         </div>
         <div style={{ display: 'flex', gap: '4px', background: 'rgba(0,0,0,0.5)', padding: '4px', borderRadius: '4px' }}>
           <button style={{ cursor: 'pointer', padding: '2px 6px', fontSize: '12px' }} onClick={() => setSeason('sunny')}>Sunny</button>
@@ -180,6 +188,18 @@ function useSimSample<T>(read: () => T, hz = 10): T {
               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
             </svg>
           ))}
+        </div>
+
+        {/* Health and Stamina Bars */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4vw', marginTop: '1vw', width: '12vw', marginRight: '4vw' }}>
+          {/* Health Bar */}
+          <div style={{ width: '100%', height: '0.8vw', background: 'rgba(0,0,0,0.6)', border: '0.15vw solid black', borderRadius: '4px', overflow: 'hidden' }}>
+            <div style={{ width: `${Math.max(0, health)}%`, height: '100%', background: '#ff3333', transition: 'width 0.2s' }} />
+          </div>
+          {/* Stamina Bar */}
+          <div style={{ width: '100%', height: '0.6vw', background: 'rgba(0,0,0,0.6)', border: '0.15vw solid black', borderRadius: '4px', overflow: 'hidden' }}>
+            <div style={{ width: `${Math.max(0, stamina)}%`, height: '100%', background: '#33ccff', transition: 'width 0.1s' }} />
+          </div>
         </div>
       </div>
 
