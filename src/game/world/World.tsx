@@ -30,6 +30,7 @@ import * as signals from './trafficSignals';
 import { getParkedHero } from '../vehicle/takeover';
 import { GROUND_HALF, PROMENADE_X, WORLD_HALF } from '../config/world';
 import { Sea } from './Sea';
+import { WeatherSystem } from './WeatherSystem';
 import type { QualitySettings } from '../config/quality';
 import { DEBUG_HOOKS, sim } from '../core/sim';
 
@@ -131,6 +132,7 @@ export function World({
       />
 
       <Sea />
+      <WeatherSystem />
 
       <Props city={city} quality={quality} />
       <ParkedVehicles quality={quality} />

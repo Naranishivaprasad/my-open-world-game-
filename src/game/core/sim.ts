@@ -185,6 +185,8 @@ export interface Sim {
   scene: THREE.Scene | null;
   /** Used by CombatSystem to damage pedestrians. */
   pedestrians: any;
+  /** Current season/weather (requested by user) */
+  season: 'sunny' | 'rainy' | 'snowy' | 'autumn';
 }
 
 export const sim: Sim = {
@@ -284,6 +286,7 @@ export const sim: Sim = {
   toast: null,
   scene: null,
   pedestrians: null as any,
+  season: 'sunny',
 };
 
 /** Clear per-frame edge-triggered flags. Called at the END of each frame. */

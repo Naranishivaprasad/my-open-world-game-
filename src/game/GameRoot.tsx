@@ -499,7 +499,12 @@ function GameScene({
   }, [onReady]);
 
   useFrame((_, delta) => {
-    if (sim.police.state === 'busted') {
+    // Water drowning logic
+    if (sim.player.position.y < -1.1 && sim.player.health > 0) {
+      sim.player.health = 0; // Drowned
+    }
+
+    if (sim.police.state === 'busted' || sim.player.health <= 0) {
       bustedTimerRef.current += Math.min(delta, 0.1);
       if (bustedTimerRef.current > 3.0) {
         bustedTimerRef.current = 0;
@@ -507,7 +512,8 @@ function GameScene({
         // Teleport back to spawn
         controller?.teleport(PLAYER_SPAWN.x, PLAYER_SPAWN.y, PLAYER_SPAWN.z, Math.PI);
         
-        // Reset police state
+        // Reset state
+        sim.player.health = 100;
         sim.police.state = 'unaware';
         sim.police.wanted = 0;
         police?.clear();
