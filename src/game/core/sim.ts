@@ -26,7 +26,6 @@ export interface PlayerSim {
   /** Name of the animation clip actually playing, for tests and the overlay. */
   clip: string;
   health: number;
-  health: number;
   stamina: number;
   /** Used to exclude the player from their own bullet raycasts */
   colliderHandle: number | null;
@@ -206,7 +205,6 @@ export const sim: Sim = {
     grounded: false,
     airTime: 0,
     locomotion: 'idle',
-    clip: '',
     clip: '',
     health: 100,
     stamina: 100,

@@ -77,7 +77,7 @@ function useSimSample<T>(read: () => T, hz = 10): T {
       {/* Version Indicator & Controls */}
       <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <div style={{ background: 'rgba(255,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontWeight: 'bold' }}>
-          VERSION: 8 (Aim Pose + Blood Physics Fix)
+          VERSION: 9 (Build Fix + Physics + Animations)
         </div>
         <div style={{ display: 'flex', gap: '4px', background: 'rgba(0,0,0,0.5)', padding: '4px', borderRadius: '4px' }}>
           <button style={{ cursor: 'pointer', padding: '2px 6px', fontSize: '12px' }} onClick={() => setSeason('sunny')}>Sunny</button>
@@ -343,6 +343,39 @@ function useSimSample<T>(read: () => T, hz = 10): T {
 
       {/* CROSSHAIR */}
       <Crosshair />
+      {/* WASTED screen */}
+      {health <= 0 && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(0,0,0,0.4)',
+          color: '#d41111',
+          fontSize: '120px',
+          fontWeight: 900,
+          fontFamily: '"Impact", "Pricedown", sans-serif',
+          textShadow: '4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000',
+          letterSpacing: '5px',
+          pointerEvents: 'none',
+          zIndex: 100000,
+          animation: 'wastedFade 0.5s ease-out'
+        }}>
+          WASTED
+          <style>
+            {`
+              @keyframes wastedFade {
+                from { transform: scale(1.5); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+              }
+            `}
+          </style>
+        </div>
+      )}
     </div>
   );
 }
@@ -880,39 +913,6 @@ export function Onboarding() {
   return (
     <div className="hud overlay--passthrough">
       <div className="hud__toast">{hints[index]!.text}</div>
-      {/* WASTED screen */}
-      {health <= 0 && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'rgba(0,0,0,0.4)',
-          color: '#d41111',
-          fontSize: '120px',
-          fontWeight: 900,
-          fontFamily: '"Impact", "Pricedown", sans-serif',
-          textShadow: '4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000',
-          letterSpacing: '5px',
-          pointerEvents: 'none',
-          zIndex: 100000,
-          animation: 'wastedFade 0.5s ease-out'
-        }}>
-          WASTED
-          <style>
-            {`
-              @keyframes wastedFade {
-                from { transform: scale(1.5); opacity: 0; }
-                to { transform: scale(1); opacity: 1; }
-              }
-            `}
-          </style>
-        </div>
-      )}
     </div>
   );
 }

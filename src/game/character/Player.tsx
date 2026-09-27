@@ -143,12 +143,12 @@ export function Player({
     if (sim.input.aimHeld && sim.controlMode === 'foot') {
       if (model.rightArm) {
         // Raise the arm
-        model.rightArm.rotation.z = Math.PI / 2.5; 
-        model.rightArm.rotation.x = Math.PI / 8;
+        (model.rightArm as THREE.Object3D).rotation.z = Math.PI / 2.5; 
+        (model.rightArm as THREE.Object3D).rotation.x = Math.PI / 8;
       }
       if (model.spine) {
         // Twist the torso to point right shoulder forward
-        model.spine.rotation.y = Math.PI / 4;
+        (model.spine as THREE.Object3D).rotation.y = Math.PI / 4;
       }
     } else {
       // Allow animation to take back control
