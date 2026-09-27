@@ -26,6 +26,7 @@ export interface PlayerSim {
   /** Name of the animation clip actually playing, for tests and the overlay. */
   clip: string;
   health: number;
+  stamina: number;
 }
 
 export interface CameraSim {
@@ -202,6 +203,7 @@ export const sim: Sim = {
     locomotion: 'idle',
     clip: '',
     health: 100,
+    stamina: 100,
   },
   camera: {
     yaw: 0,

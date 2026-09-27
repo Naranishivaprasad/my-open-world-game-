@@ -291,7 +291,9 @@ export type VehicleKey =
   | 'van'
   | 'hatchback'
   | 'motorcycle'
-  | 'scooter';
+  | 'scooter'
+  | 'concept'
+  | 'ferrari';
 
 export interface VehicleSpec {
   key: VehicleKey;
@@ -634,6 +636,8 @@ export const VEHICLE_TYPES: Record<VehicleKey, VehicleSpec> = {
   van: { key: 'van', label: 'Courier LWB', length: 5.36, width: 2.0, height: 2.22, mass: 2320, engineForce: 7600, topSpeedKph: 142, wheelbase: 3.4, track: 1.72, wheelRadius: 0.36, isBike: false, weight: 8 },
   motorcycle: { key: 'motorcycle', label: 'Kestrel 650', length: 2.1, width: 0.74, height: 1.12, mass: 210, engineForce: 1750, topSpeedKph: 196, wheelbase: 1.4, track: 0, wheelRadius: 0.32, isBike: true, weight: 8 },
   scooter: { key: 'scooter', label: 'Wasp 125', length: 1.78, width: 0.66, height: 1.06, mass: 130, engineForce: 420, topSpeedKph: 92, wheelbase: 1.16, track: 0, wheelRadius: 0.24, isBike: true, weight: 6 },
+  concept: { key: 'concept', label: 'Car Concept', length: 4.8, width: 2.0, height: 1.2, mass: 1600, engineForce: 10000, topSpeedKph: 250, wheelbase: 2.9, track: 1.7, wheelRadius: 0.35, isBike: false, weight: 0 },
+  ferrari: { key: 'ferrari', label: 'F-Type Supercar', length: 4.6, width: 1.9, height: 1.1, mass: 1400, engineForce: 12000, topSpeedKph: 300, wheelbase: 2.7, track: 1.6, wheelRadius: 0.34, isBike: false, weight: 0 },
 };
 
 export const VEHICLE_KEYS = Object.keys(VEHICLE_TYPES) as VehicleKey[];

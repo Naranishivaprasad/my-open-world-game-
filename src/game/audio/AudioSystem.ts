@@ -215,8 +215,20 @@ export class AudioSystem {
     // ---------------------------------------------------------- engine note
     const engineActive = v.occupied && v.engineOn;
     const rpm = engineActive ? v.rpm01 : 0;
-    const baseHz =
-      VEHICLE_AUDIO.idleHz + (VEHICLE_AUDIO.redlineHz - VEHICLE_AUDIO.idleHz) * rpm;
+    let idleHz = VEHICLE_AUDIO.idleHz;
+    let redlineHz = VEHICLE_AUDIO.redlineHz;
+    if (v.kind === 'concept' || v.kind === 'ferrari') {
+      idleHz *= 1.3;
+      redlineHz *= 1.5;
+    } else if (v.kind === 'suv' || v.kind === 'pickup' || v.kind === 'van') {
+      idleHz *= 0.8;
+      redlineHz *= 0.7;
+    } else if (v.kind === 'motorcycle' || v.kind === 'scooter') {
+      idleHz *= 1.6;
+      redlineHz *= 2.0;
+    }
+
+    const baseHz = idleHz + (redlineHz - idleHz) * rpm;
 
     if (changed(last.hz, baseHz, 0.4)) {
       last.hz = baseHz;

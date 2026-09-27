@@ -34,11 +34,14 @@ function useSimSample<T>(read: () => T, hz = 10): T {
   return value;
 }
 
-export function HUD() {
-  const health = useSimSample(() => Math.round(sim.player.health));
-  const prompt = useSimSample(() => sim.interaction);
-  const toast = useSimSample(() => sim.toast);
-  const clock = useSimSample(() => formatClock(sim.time.hour), 4);
+  export function HUD() {
+    const health = useSimSample(() => Math.round(sim.player.health));
+    const prompt = useSimSample(() => sim.interaction);
+    const toast = useSimSample(() => sim.toast);
+    const clock = useSimSample(() => formatClock(sim.time.hour), 4);
+    const police = useSimSample(() => sim.police);
+    const stamina = useSimSample(() => Math.round(sim.player.stamina));
+    const aimHeld = useSimSample(() => sim.input.aimHeld);
   const waypoint = useSimSample(() => {
     if (!sim.waypoint) return null;
     const inCar = sim.controlMode === 'vehicle';
@@ -66,6 +69,102 @@ export function HUD() {
 
   return (
     <div className="hud">
+      {/* Crosshair */}
+      {aimHeld && sim.controlMode === 'foot' && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: 12,
+            height: 12,
+            transform: 'translate(-50%, -50%)',
+            border: '2px solid rgba(255, 255, 255, 0.8)',
+            borderRadius: '50%',
+            zIndex: 50,
+            pointerEvents: 'none',
+          }}
+        >
+          <div style={{ position: 'absolute', top: 5, left: 5, width: 2, height: 2, backgroundColor: 'red', borderRadius: '50%' }} />
+        </div>
+      )}
+
+      {/* Vice City Style HUD */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '2em',
+          right: '2.5em',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          fontFamily: '"Impact", "Arial Black", sans-serif',
+          zIndex: 10,
+          textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000',
+        }}
+      >
+        {/* Time */}
+        <div style={{ fontSize: '3vw', color: '#5ebdec', letterSpacing: '2px', lineHeight: 1.1 }}>
+          {clock}
+        </div>
+        
+        {/* Money */}
+        <div style={{ fontSize: '3.2vw', color: '#5cc788', letterSpacing: '2px', lineHeight: 1.1 }}>
+          ${String(mission.money).padStart(8, '0')}
+        </div>
+
+        {/* Health and Weapon Row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1vw', marginTop: '0.2em' }}>
+          {/* Health */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
+            <svg width="2.5vw" height="2.5vw" viewBox="0 0 24 24" fill="#ff7eb3" style={{ filter: 'drop-shadow(2px 2px 0 #000)' }}>
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span style={{ fontSize: '2.8vw', color: '#ff7eb3', letterSpacing: '2px' }}>
+              {String(health).padStart(3, '0')}
+            </span>
+          </div>
+
+          {/* Weapon */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginLeft: '1vw' }}>
+            <div style={{ 
+              width: '5vw', 
+              height: '3.5vw', 
+              background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
+              borderRadius: '8px',
+              border: '3px solid #fff',
+              boxShadow: '2px 2px 0 #000',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              {/* Simple gun icon placeholder */}
+              <div style={{ width: '3vw', height: '1.5vw', backgroundColor: '#333', borderRadius: '2px' }}>
+                <div style={{ width: '1vw', height: '1vw', backgroundColor: '#333', position: 'absolute', bottom: '0.5vw', right: '1.5vw' }} />
+              </div>
+            </div>
+            <div style={{ fontSize: '1.5vw', color: '#ff7eb3', letterSpacing: '1px', marginTop: '0.2vw' }}>
+              73-9
+            </div>
+          </div>
+        </div>
+
+        {/* Wanted Level Stars */}
+        <div style={{ display: 'flex', gap: '0.3vw', marginTop: '0.2vw', marginRight: '5vw' }}>
+          {[...Array(6)].map((_, i) => (
+            <svg key={i} width="2vw" height="2vw" viewBox="0 0 24 24" 
+                 fill={i < police.wanted ? "#5ebdec" : "transparent"} 
+                 stroke={i < police.wanted ? "none" : "#5ebdec"} 
+                 strokeWidth="2"
+                 style={{ filter: i < police.wanted ? 'drop-shadow(2px 2px 0 #000)' : 'none' }}>
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          ))}
+        </div>
+      </div>
+
       <div className="hud__minimap">
         <Minimap />
         <div className="hud__clock" aria-label="Time of day">

@@ -196,9 +196,11 @@ export class CharacterController {
     if (Math.abs(actualVX) < Math.abs(this.vx)) this.vx = actualVX;
     if (Math.abs(actualVZ) < Math.abs(this.vz)) this.vz = actualVZ;
 
-    // --- turn the mesh toward travel direction ---
+    // --- turn the mesh toward travel direction or camera (when aiming) ---
     const speed = Math.hypot(actualVX, actualVZ);
-    if (hasInput && speed > 0.15) {
+    if (input.aimHeld) {
+      sim.player.heading = turnToward(sim.player.heading, yaw, MOVEMENT.turnRate * dt);
+    } else if (hasInput && speed > 0.15) {
       const targetHeading = Math.atan2(dirX, dirZ);
       sim.player.heading = turnToward(sim.player.heading, targetHeading, MOVEMENT.turnRate * dt);
     }
