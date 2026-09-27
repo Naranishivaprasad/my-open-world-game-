@@ -143,9 +143,9 @@ export function Player({
     if (sim.input.aimHeld && sim.controlMode === 'foot') {
       if (model.rightArm) {
         // Raise the arm
-        // Raise the arm forward (Mixamo rig: x is forward/back, z is out/in)
-        (model.rightArm as THREE.Object3D).rotation.x = -Math.PI / 2.5; 
-        (model.rightArm as THREE.Object3D).rotation.z = Math.PI / 8;
+        // Raise the arm forward
+        (model.rightArm as THREE.Object3D).rotation.x = Math.PI / 2.5; 
+        (model.rightArm as THREE.Object3D).rotation.z = 0;
       }
       if (model.spine) {
         // Twist the torso slightly
