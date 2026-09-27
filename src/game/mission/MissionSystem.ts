@@ -393,7 +393,8 @@ export class MissionSystem {
     this.routeAge = 0;
     this.routeFromX = px;
     this.routeFromZ = pz;
-    this.route = findRoute(px, pz, destX, destZ);
+    const heading = inVehicle ? sim.vehicle.heading : sim.player.heading;
+    this.route = findRoute(px, pz, destX, destZ, heading);
   }
 
   // ------------------------------------------------------------- dialogue

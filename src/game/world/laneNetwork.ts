@@ -167,8 +167,9 @@ export interface RoutePoint {
 /**
  * Nearest lane to a world point, and how far along it that point projects.
  * Used to attach both ends of a route to the network.
+ * @param heading Optional heading to penalize lanes facing the wrong way.
  */
-export function nearestRoutableLane(x: number, z: number): { lane: RoutableLane; t: number } | null {
+export function nearestRoutableLane(x: number, z: number, heading?: number): { lane: RoutableLane; t: number } | null {
   const net = getLaneNetwork();
   let best: { lane: RoutableLane; t: number } | null = null;
   let bestDist = Infinity;
@@ -181,7 +182,22 @@ export function nearestRoutableLane(x: number, z: number): { lane: RoutableLane;
     t = Math.max(0, Math.min(1, t));
     const cx = lane.ax + vx * t;
     const cz = lane.az + vz * t;
-    const d = Math.hypot(x - cx, z - cz);
+    let d = Math.hypot(x - cx, z - cz);
+    
+    // Penalize lanes that are pointing completely opposite to the given heading
+    if (heading !== undefined) {
+      const laneHeading = Math.atan2(vx, vz); // Angle from +Z axis
+      // Calculate angular difference
+      let diff = Math.abs(laneHeading - heading);
+      while (diff > Math.PI) diff -= Math.PI * 2;
+      diff = Math.abs(diff);
+      
+      // If we are facing more than 90 degrees away from the lane's direction, penalize heavily
+      if (diff > Math.PI / 2) {
+        d += 15; // 15 meters virtual distance penalty
+      }
+    }
+
     if (d < bestDist) {
       bestDist = d;
       best = { lane, t };
@@ -203,10 +219,11 @@ export function findRoute(
   fromZ: number,
   toX: number,
   toZ: number,
+  heading?: number,
   maxExpansions = 4000,
 ): RoutePoint[] | null {
   const net = getLaneNetwork();
-  const start = nearestRoutableLane(fromX, fromZ);
+  const start = nearestRoutableLane(fromX, fromZ, heading);
   const goal = nearestRoutableLane(toX, toZ);
   if (!start || !goal) return null;
 

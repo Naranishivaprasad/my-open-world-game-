@@ -38,8 +38,11 @@ export function HeroVehicle({
   const gltf = useGLTF(VEHICLE_MODEL.url, '/draco/gltf/');
 
   const carRef = useRef<THREE.Group>(null);
-  /** The GLB shell, which outlives being driven: it stays parked. */
   const heroRef = useRef<THREE.Group>(null);
+  const leftLight = useRef<THREE.SpotLight>(null);
+  const rightLight = useRef<THREE.SpotLight>(null);
+  const leftTarget = useRef<THREE.Object3D>(null);
+  const rightTarget = useRef<THREE.Object3D>(null);
   const ownerRef = useRef<VehicleOwner | null>(null);
 
   /**
@@ -172,6 +175,12 @@ export function HeroVehicle({
     const reversing = ctl.currentGear === 'R';
     rig.setTailIntensity(braking ? 9 : reversing ? 6 : ctl.isEngineOn ? 1.4 : 0);
     rig.setHeadIntensity(sim.vehicle.headlights ? 7 : 0);
+    
+    if (leftLight.current && rightLight.current) {
+      const lightsOn = sim.vehicle.headlights;
+      leftLight.current.visible = lightsOn;
+      rightLight.current.visible = lightsOn;
+    }
   });
 
   return (
@@ -195,6 +204,30 @@ export function HeroVehicle({
           {rig.wheelPivots.map((p, i) => (
             <primitive key={i} object={p} />
           ))}
+          
+          <spotLight
+            ref={leftLight}
+            position={[-0.7, 0.7, -2.5]}
+            angle={0.6}
+            penumbra={0.5}
+            intensity={100}
+            distance={50}
+            castShadow
+            target={leftTarget.current || undefined}
+          />
+          <object3D ref={leftTarget} position={[-0.7, 0.2, -10]} />
+          
+          <spotLight
+            ref={rightLight}
+            position={[0.7, 0.7, -2.5]}
+            angle={0.6}
+            penumbra={0.5}
+            intensity={100}
+            distance={50}
+            castShadow
+            target={rightTarget.current || undefined}
+          />
+          <object3D ref={rightTarget} position={[0.7, 0.2, -10]} />
         </group>
       </group>
     </>
