@@ -128,24 +128,24 @@ export function Sea() {
         float a = shoal(p.x);
         float h = 0.0;
         // Shore-parallel swell rolling in toward the beach (-X).
-        h += sin(p.x * 0.30 - t * 1.85 + sin(p.z * 0.02) * 1.4) * 0.17 * a;
-        h += sin(p.x * 0.155 - t * 1.15 + p.z * 0.026) * 0.27 * a;
+        h += sin(p.x * 0.30 - t * 1.85 + sin(p.z * 0.02) * 1.4) * 0.45 * a;
+        h += sin(p.x * 0.155 - t * 1.15 + p.z * 0.026) * 0.65 * a;
         // Cross swell and chop, which stop the crests looking like corduroy.
-        h += sin(p.z * 0.075 + t * 0.72) * 0.13;
-        h += sin((p.x * 0.52 + p.z * 0.31) - t * 2.5) * 0.065 * a;
+        h += sin(p.z * 0.075 + t * 0.72) * 0.35;
+        h += sin((p.x * 0.52 + p.z * 0.31) - t * 2.5) * 0.20 * a;
         return h;
       }
 
       vec3 waveNormal(vec3 p, float t) {
         float a = shoal(p.x);
         float dx =
-            cos(p.x * 0.30 - t * 1.85 + sin(p.z * 0.02) * 1.4) * 0.17 * a * 0.30
-          + cos(p.x * 0.155 - t * 1.15 + p.z * 0.026) * 0.27 * a * 0.155
-          + cos((p.x * 0.52 + p.z * 0.31) - t * 2.5) * 0.065 * a * 0.52;
+            cos(p.x * 0.30 - t * 1.85 + sin(p.z * 0.02) * 1.4) * 0.45 * a * 0.30
+          + cos(p.x * 0.155 - t * 1.15 + p.z * 0.026) * 0.65 * a * 0.155
+          + cos((p.x * 0.52 + p.z * 0.31) - t * 2.5) * 0.20 * a * 0.52;
         float dz =
-            cos(p.x * 0.155 - t * 1.15 + p.z * 0.026) * 0.27 * a * 0.026
-          + cos(p.z * 0.075 + t * 0.72) * 0.13 * 0.075
-          + cos((p.x * 0.52 + p.z * 0.31) - t * 2.5) * 0.065 * a * 0.31;
+            cos(p.x * 0.155 - t * 1.15 + p.z * 0.026) * 0.65 * a * 0.026
+          + cos(p.z * 0.075 + t * 0.72) * 0.35 * 0.075
+          + cos((p.x * 0.52 + p.z * 0.31) - t * 2.5) * 0.20 * a * 0.31;
         return normalize(vec3(-dx, 1.0, -dz));
       }
     `;
