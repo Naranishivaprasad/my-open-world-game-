@@ -60,22 +60,8 @@ export function WeatherSystem() {
 
     const season = sim.season;
     
-    // Update Sky/Fog color
-    const targetColor = skyColors[season];
-    if (scene.background instanceof THREE.Color) {
-      scene.background.lerp(targetColor, delta);
-    } else {
-      scene.background = targetColor.clone();
-    }
-    
-    if (scene.fog instanceof THREE.Fog) {
-      scene.fog.color.lerp(targetColor, delta);
-      // Adjust fog density based on weather
-      let targetFar = 1000;
-      if (season === 'rainy') targetFar = 200;
-      if (season === 'snowy') targetFar = 150;
-      scene.fog.far += (targetFar - scene.fog.far) * delta;
-    }
+    // Particles are the only thing updated here now.
+    // Fog and sky colors are handled by Lighting.tsx based on sim.season.
     
     // Update Particles (Rain/Snow)
     if (particlesMesh.current) {

@@ -151,6 +151,36 @@ export function Lighting({ quality }: { quality: QualitySettings }) {
       t.hour = (t.hour + (dt / DAY_LENGTH_SECONDS) * 24 * t.scale) % 24;
     }
     skyLookAt(t.hour, look);
+    
+    // Apply Season Overrides
+    if (sim.season === 'rainy') {
+      look.sunIntensity *= 0.2; // dark
+      look.ambient *= 0.6;
+      look.sky.lerp(new THREE.Color('#4a5d66'), 0.8);
+      look.zenith.lerp(new THREE.Color('#4a5d66'), 0.8);
+      look.horizon.lerp(new THREE.Color('#38464d'), 0.8);
+      look.haze.lerp(new THREE.Color('#4a5d66'), 0.8);
+      look.hazeFar *= 0.3;
+      look.env *= 0.4;
+      look.sunGlow = 0;
+    } else if (sim.season === 'snowy') {
+      look.sunIntensity *= 0.4;
+      look.ambient *= 1.2; // snow reflects light
+      look.sky.lerp(new THREE.Color('#dcebf2'), 0.7);
+      look.zenith.lerp(new THREE.Color('#dcebf2'), 0.7);
+      look.horizon.lerp(new THREE.Color('#b5cdd9'), 0.7);
+      look.haze.lerp(new THREE.Color('#dcebf2'), 0.7);
+      look.hazeFar *= 0.4;
+      look.sunGlow = 0.1;
+    } else if (sim.season === 'autumn') {
+      look.sunIntensity *= 0.8;
+      look.sky.lerp(new THREE.Color('#c98e4f'), 0.3);
+      look.zenith.lerp(new THREE.Color('#c98e4f'), 0.3);
+      look.horizon.lerp(new THREE.Color('#a87540'), 0.3);
+      look.haze.lerp(new THREE.Color('#c98e4f'), 0.3);
+      look.sun.lerp(new THREE.Color('#ffb347'), 0.5);
+    }
+
     t.phase = phaseName(t.hour);
     // Darkness drives lit windows, streetlights and automatic headlights.
     t.darkness = look.lights;
