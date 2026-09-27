@@ -119,8 +119,8 @@ export function Player({
     const p = sim.player.position;
     const isSitting = sim.controlMode === 'entering' || sim.controlMode === 'exiting' || sim.controlMode === 'vehicle';
     
-    // Lift the mesh up slightly so the legs don't clip into the ground, and lift it more when sitting so it doesn't poke through the floor of the car
-    g.position.set(p.x, p.y + (isSitting ? 0.65 : 0.35), p.z);
+    // Lift the mesh up slightly so the legs don't clip into the ground
+    g.position.set(p.x, p.y + (isSitting ? -0.1 : 0.35), p.z);
     
     const sitOffset = isSitting ? 0 : 0; // Removed Math.PI rotation offset
     g.rotation.y = sim.player.heading + CHARACTER_MODEL.yawOffset + sitOffset;

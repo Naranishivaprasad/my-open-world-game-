@@ -106,6 +106,7 @@ export class InputManager {
     el.addEventListener('mousemove', this.handleMouseMove);
     el.addEventListener('mousedown', this.handleMouseDown);
     el.addEventListener('mouseup', this.handleMouseUp);
+    el.addEventListener('contextmenu', this.handleContextMenu);
     this.attached = true;
   }
 
@@ -120,6 +121,7 @@ export class InputManager {
     this.el?.removeEventListener('mousemove', this.handleMouseMove);
     this.el?.removeEventListener('mousedown', this.handleMouseDown);
     this.el?.removeEventListener('mouseup', this.handleMouseUp);
+    this.el?.removeEventListener('contextmenu', this.handleContextMenu);
     this.el = null;
     this.attached = false;
     this.clearAll();
@@ -256,6 +258,10 @@ export class InputManager {
 
   private handleMouseUp = (e: MouseEvent) => {
     this.mouseButtons.delete(e.button);
+  };
+
+  private handleContextMenu = (e: MouseEvent) => {
+    if (this.gameplayEnabled) e.preventDefault();
   };
 
   private handlePointerLockChange = () => {

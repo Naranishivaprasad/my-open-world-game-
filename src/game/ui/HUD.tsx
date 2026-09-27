@@ -104,23 +104,23 @@ function useSimSample<T>(read: () => T, hz = 10): T {
         }}
       >
         {/* Time */}
-        <div style={{ fontSize: '3vw', color: '#5ebdec', letterSpacing: '2px', lineHeight: 1.1 }}>
+        <div style={{ fontSize: '2.2vw', color: '#5ebdec', letterSpacing: '2px', lineHeight: 1.1 }}>
           {clock}
         </div>
         
         {/* Money */}
-        <div style={{ fontSize: '3.2vw', color: '#5cc788', letterSpacing: '2px', lineHeight: 1.1 }}>
+        <div style={{ fontSize: '2.5vw', color: '#5cc788', letterSpacing: '2px', lineHeight: 1.1 }}>
           ${String(mission.money).padStart(8, '0')}
         </div>
 
         {/* Health and Weapon Row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1vw', marginTop: '0.2em' }}>
           {/* Health */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
-            <svg width="2.5vw" height="2.5vw" viewBox="0 0 24 24" fill="#ff7eb3" style={{ filter: 'drop-shadow(2px 2px 0 #000)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4vw' }}>
+            <svg width="2vw" height="2vw" viewBox="0 0 24 24" fill="#ff7eb3" style={{ filter: 'drop-shadow(2px 2px 0 #000)' }}>
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            <span style={{ fontSize: '2.8vw', color: '#ff7eb3', letterSpacing: '2px' }}>
+            <span style={{ fontSize: '2.2vw', color: '#ff7eb3', letterSpacing: '2px' }}>
               {String(health).padStart(3, '0')}
             </span>
           </div>
@@ -128,8 +128,8 @@ function useSimSample<T>(read: () => T, hz = 10): T {
           {/* Weapon */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginLeft: '1vw' }}>
             <div style={{ 
-              width: '5vw', 
-              height: '3.5vw', 
+              width: '4vw', 
+              height: '2.8vw', 
               background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
               borderRadius: '8px',
               border: '3px solid #fff',
@@ -141,20 +141,20 @@ function useSimSample<T>(read: () => T, hz = 10): T {
               overflow: 'hidden'
             }}>
               {/* Simple gun icon placeholder */}
-              <div style={{ width: '3vw', height: '1.5vw', backgroundColor: '#333', borderRadius: '2px' }}>
-                <div style={{ width: '1vw', height: '1vw', backgroundColor: '#333', position: 'absolute', bottom: '0.5vw', right: '1.5vw' }} />
+              <div style={{ width: '2.5vw', height: '1.2vw', backgroundColor: '#333', borderRadius: '2px' }}>
+                <div style={{ width: '0.8vw', height: '0.8vw', backgroundColor: '#333', position: 'absolute', bottom: '0.4vw', right: '1.2vw' }} />
               </div>
             </div>
-            <div style={{ fontSize: '1.5vw', color: '#ff7eb3', letterSpacing: '1px', marginTop: '0.2vw' }}>
+            <div style={{ fontSize: '1.2vw', color: '#ff7eb3', letterSpacing: '1px', marginTop: '0.2vw' }}>
               73-9
             </div>
           </div>
         </div>
 
         {/* Wanted Level Stars */}
-        <div style={{ display: 'flex', gap: '0.3vw', marginTop: '0.2vw', marginRight: '5vw' }}>
+        <div style={{ display: 'flex', gap: '0.3vw', marginTop: '0.2vw', marginRight: '4vw' }}>
           {[...Array(6)].map((_, i) => (
-            <svg key={i} width="2vw" height="2vw" viewBox="0 0 24 24" 
+            <svg key={i} width="1.8vw" height="1.8vw" viewBox="0 0 24 24" 
                  fill={i < police.wanted ? "#5ebdec" : "transparent"} 
                  stroke={i < police.wanted ? "none" : "#5ebdec"} 
                  strokeWidth="2"

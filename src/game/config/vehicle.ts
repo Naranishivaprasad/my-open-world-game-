@@ -483,7 +483,7 @@ export function buildFromSpec(spec: BuildSpecInput): VehicleBuild {
   const anchors: typeof ANCHORS = {
     driverDoor: { x: -(spec.width / 2 + reach), y: 0, z: -0.15 },
     passengerDoor: { x: spec.width / 2 + reach, y: 0, z: -0.15 },
-    driverSeat: { x: -0.35, y: ANCHORS.driverSeat.y, z: -0.1 },
+    driverSeat: { x: twoWheeled ? 0 : -0.35, y: ANCHORS.driverSeat.y, z: -0.1 },
     driverEye: { x: 0, y: spec.height * 0.62, z: -0.3 },
   };
 
