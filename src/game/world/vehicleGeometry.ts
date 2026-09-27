@@ -702,6 +702,9 @@ export function makeVehicleGeometry(key: VehicleKey): THREE.BufferGeometry {
       return buildMotorcycle();
     case 'scooter':
       return buildScooter();
+    case 'concept':
+    case 'ferrari':
+      return new THREE.BufferGeometry();
   }
 }
 
